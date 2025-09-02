@@ -1,6 +1,10 @@
+import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/sonner";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
+import QueryProvider from "@/lib/query/provider/query-provider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
 
 const pretendard = localFont({
@@ -18,15 +22,21 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
-        {children}
+        <SessionProvider session={session}>
+          <QueryProvider>
+            {children}
+            <Toaster />
+          </QueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );
