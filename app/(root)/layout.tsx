@@ -1,3 +1,4 @@
+import Navbar from "@/components/shared/navbar/navbar";
 import AppSidebar from "@/components/shared/sidebar/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -8,18 +9,14 @@ export default async function RootLayout({
 }>) {
   return (
     <SidebarProvider>
-      <div className="min-h-screen">
-        <div className="flex size-full">
-          <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-auto">
-            <AppSidebar />
+      <div className="w-full flex bg-background h-screen">
+        <AppSidebar />
+        <main className="w-full overflow-y-auto min-h-screen">
+          <div className="flex items-center sticky top-0 z-40">
+            <Navbar />
           </div>
-          <div className="lg:pl-[264px]">
-            <div className="mx-auto nax-w-screen-2xl h-full">
-              {/* Navbar */}
-              <main className="h-full py-8 px-6 flex flex-col">{children}</main>
-            </div>
-          </div>
-        </div>
+          <div className="p-0 md:p-4 pt-2">{children}</div>
+        </main>
       </div>
     </SidebarProvider>
   );

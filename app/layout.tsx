@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 import QueryProvider from "@/lib/query/provider/query-provider";
 import "@/styles/globals.css";
@@ -33,8 +34,10 @@ export default async function RootLayout({
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <SessionProvider session={session}>
           <QueryProvider>
-            {children}
-            <Toaster />
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
           </QueryProvider>
         </SessionProvider>
       </body>
