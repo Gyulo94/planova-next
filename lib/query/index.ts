@@ -6,3 +6,5 @@ export {
   useSignup,
   useVerifyToken,
 } from "./auth";
+
+export { useCreateWorkspace } from "./workspace";

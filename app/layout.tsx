@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import OpenProvider from "@/components/provider/open-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
@@ -36,6 +37,7 @@ export default async function RootLayout({
           <QueryProvider>
             <TooltipProvider>
               {children}
+              <OpenProvider />
               <Toaster />
             </TooltipProvider>
           </QueryProvider>
