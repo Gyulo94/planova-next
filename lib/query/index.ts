@@ -7,4 +7,4 @@ export {
   useVerifyToken,
 } from "./auth";
 
-export { useCreateWorkspace } from "./workspace";
+export { useCreateWorkspace, useFindWorkspace } from "./workspace";

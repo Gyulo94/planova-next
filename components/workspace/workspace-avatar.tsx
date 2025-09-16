@@ -1,0 +1,28 @@
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+
+interface Props {
+  image?: string;
+  name: string;
+  className?: string;
+}
+
+export default function WorkspaceAvatar({ image, name, className }: Props) {
+  if (image) {
+    return (
+      <div
+        className={cn("size-10 relative rounded-md overflow-hidden", className)}
+      >
+        {<Image src={image} alt={name} fill className="object-cover" />}
+      </div>
+    );
+  }
+  return (
+    <Avatar className={cn("size-10", className)}>
+      <AvatarFallback className="text-white bg-primary font-semibold text-lg uppercase">
+        {name.charAt(0)}
+      </AvatarFallback>
+    </Avatar>
+  );
+}

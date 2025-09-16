@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { createWorkspace } from "../actions";
+import { createWorkspace, findWorkspaces } from "../actions";
 
 export function useCreateWorkspace() {
   const queryClient = useQueryClient();
@@ -17,4 +17,13 @@ export function useCreateWorkspace() {
     },
   });
   return mutation;
+}
+
+export function useFindWorkspace() {
+  const query = useQuery({
+    queryKey: ["workspaces"],
+    queryFn: findWorkspaces,
+    retry: false,
+  });
+  return query;
 }
