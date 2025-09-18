@@ -1,4 +1,5 @@
 import { imageUpload } from "@/lib/actions";
+import { useParams, usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -64,7 +65,7 @@ export function useImageUpload({
           }
 
           setImages(newImages);
-          onSuccess?.(uploadedUrls);
+          onSuccess?.(newImages); // uploadedUrls 대신 newImages 전달
         }
       } catch (error) {
         toast.error("이미지 업로드에 실패했습니다.");
@@ -79,4 +80,36 @@ export function useImageUpload({
     uploading,
     uploadImages,
   };
+}
+
+export function useGenerateInviteCode(length: number) {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let code = "";
+  for (let i = 0; i < length; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
+export function useParameters() {
+  const params = useParams();
+  return {
+    workspaceId: params.workspaceId as string,
+  };
+}
+
+export function useTitleAndDescription() {
+  const pathname = usePathname();
+  if (pathname.includes("/settings")) {
+    return {
+      title: "세팅",
+      description: "워크스페이스 정보를 관리하세요",
+    };
+  } else {
+    return {
+      title: "홈",
+      description: "모든 프로젝트를 모니터링하세요",
+    };
+  }
 }

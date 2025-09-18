@@ -7,6 +7,12 @@ export {
   verifyToken,
 } from "./auth";
 
-export { createWorkspace, findWorkspaces } from "./workspace";
+export {
+  createWorkspace,
+  deleteWorkspace,
+  findWorkspaceById,
+  findWorkspaces,
+  updateWorkspace,
+} from "./workspace";
 
 export { imageUpload } from "./file";

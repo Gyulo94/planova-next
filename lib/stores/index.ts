@@ -1,1 +1,4 @@
-export { useOpenWorkspaceDialogStore } from "./workspace";
+export {
+  useEditWorkspaceDialogStore,
+  useOpenWorkspaceDialogStore,
+} from "./workspace";

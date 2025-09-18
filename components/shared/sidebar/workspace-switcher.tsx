@@ -8,15 +8,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import WorkspaceAvatar from "@/components/workspace/workspace-avatar";
+import { useParameters } from "@/lib/hooks/util";
 import { useFindWorkspace } from "@/lib/query";
 import { useOpenWorkspaceDialogStore } from "@/lib/stores";
 import { Workspace } from "@/lib/types";
+import { useRouter } from "next/navigation";
 import { RiAddCircleFill } from "react-icons/ri";
 
 export default function WorkspaceSwitcher() {
-  const { data } = useFindWorkspace();
   const { onOpen } = useOpenWorkspaceDialogStore();
+  const { workspaceId } = useParameters();
+  const { data } = useFindWorkspace();
+  const router = useRouter();
   const workspaces: Workspace[] = data || [];
+
+  function onSelect(workspaceId: string) {
+    router.push(`/workspaces/${workspaceId}`);
+  }
+
   return (
     <div className="flex flex-col gap-y-2 px-2">
       <div className="flex items-center justify-between">
@@ -26,7 +35,7 @@ export default function WorkspaceSwitcher() {
           onClick={onOpen}
         />
       </div>
-      <Select>
+      <Select onValueChange={onSelect} value={workspaceId}>
         <SelectTrigger
           className="w-full bg-neutral-200 font-medium py-3 px-2 h-14"
           suppressHydrationWarning

@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/ui/loader";
 import { DottedSeparator } from "@/components/ui/separator";
-import { useImageUpload } from "@/lib/hooks/use-image-upload";
+import { useImageUpload } from "@/lib/hooks/util";
 import { WorkspaceFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon } from "lucide-react";
@@ -28,7 +28,7 @@ interface Props {
   isDisabled?: boolean;
   onSubmit: (data: z.infer<typeof WorkspaceFormSchema>) => void;
   defaultValues: z.infer<typeof WorkspaceFormSchema>;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export default function WorkspaceForm({
@@ -54,7 +54,8 @@ export default function WorkspaceForm({
     initialImages,
     onSuccess: (urls) => {
       if (urls.length > 0) {
-        form.setValue("image", urls[0]);
+        const newImageUrl = urls[0];
+        form.setValue("image", newImageUrl);
       }
     },
   });
@@ -64,7 +65,7 @@ export default function WorkspaceForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form suppressHydrationWarning onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-y-4">
           <FormField
             control={form.control}
@@ -154,7 +155,7 @@ export default function WorkspaceForm({
             취소
           </Button>
           <Button type="submit" size={"lg"} disabled={isDisabled}>
-            생성
+            {id ? "수정" : "생성"}
           </Button>
         </div>
       </form>

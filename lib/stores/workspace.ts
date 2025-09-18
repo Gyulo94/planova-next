@@ -6,3 +6,17 @@ export const useOpenWorkspaceDialogStore = create<OpenState>((set) => ({
   onOpen: () => set(() => ({ isOpen: true })),
   onClose: () => set(() => ({ isOpen: false })),
 }));
+
+interface EditWorkspaceDialogState extends OpenState {
+  id?: string;
+  onOpen: (id?: string) => void;
+}
+
+export const useEditWorkspaceDialogStore = create<EditWorkspaceDialogState>(
+  (set) => ({
+    isOpen: false,
+    id: undefined,
+    onOpen: (id) => set(() => ({ isOpen: true, id })),
+    onClose: () => set(() => ({ isOpen: false, id: undefined })),
+  })
+);

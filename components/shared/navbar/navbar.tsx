@@ -1,14 +1,12 @@
 import MenuButton from "./menu-button";
+import NavTitle from "./nav-title";
 import UserButton from "./user-button";
 
 export default function Navbar() {
   return (
-    <nav className="pt-4 px-6 flex items-center justify-between w-full">
+    <nav className="py-1 px-6 flex items-center justify-between bg-background w-full shadow-sm">
       <MenuButton />
-      <div className="flex-col hidden md:flex">
-        <h1 className="text-2xl font-semibold">Home</h1>
-        <p className="text-muted-foreground">Monitor all of your porject</p>
-      </div>
+      <NavTitle />
       <UserButton />
     </nav>
   );

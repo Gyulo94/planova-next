@@ -1,14 +1,44 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { createWorkspace, findWorkspaces } from "../actions";
+import z from "zod/v3";
+import {
+  createWorkspace,
+  deleteWorkspace,
+  findWorkspaceById,
+  findWorkspaces,
+  updateWorkspace,
+} from "../actions";
+import { WorkspaceFormSchema } from "../validations";
 
 export function useCreateWorkspace() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createWorkspace,
     onSuccess: (data) => {
       toast.success(data.message);
+      router.push(`/workspaces/${data.body.id}`);
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+  return mutation;
+}
+
+export function useUpdateWorkspace(id?: string) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values: z.infer<typeof WorkspaceFormSchema>) =>
+      updateWorkspace(values, id),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["workspace", { id }] });
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -26,4 +56,34 @@ export function useFindWorkspace() {
     retry: false,
   });
   return query;
+}
+
+export function useFindWorkspaceById(id?: string) {
+  const query = useQuery({
+    enabled: !!id,
+    queryKey: ["workspace", { id }],
+    queryFn: () => findWorkspaceById(id),
+    retry: false,
+  });
+  return query;
+}
+
+export function useDeleteWorkspace() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const mutation = useMutation({
+    mutationFn: (id: string) => deleteWorkspace(id),
+    onSuccess: (data, id) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["workspace", { id }] });
+      router.push(`/workspaces/${id}`);
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+  return mutation;
 }

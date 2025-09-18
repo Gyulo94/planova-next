@@ -15,6 +15,7 @@ export default function CreateWorkspaceDialog() {
 
   const defaultValues = {
     name: "",
+    image: "",
   };
 
   function onSubmit(values: z.infer<typeof WorkspaceFormSchema>) {

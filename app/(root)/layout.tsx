@@ -9,13 +9,15 @@ export default async function RootLayout({
 }>) {
   return (
     <SidebarProvider>
-      <div className="w-full flex bg-background h-screen">
+      <div className="w-full flex h-screen bg-accent">
         <AppSidebar />
         <main className="w-full overflow-y-auto min-h-screen">
           <div className="flex items-center sticky top-0 z-40">
             <Navbar />
           </div>
-          <div className="p-0 md:p-4 pt-2">{children}</div>
+          <div className="p-0 md:p-4 pt-2 min-h-[calc(100vh-64px)]">
+            {children}
+          </div>
         </main>
       </div>
     </SidebarProvider>
