@@ -111,3 +111,25 @@ export async function deleteWorkspace(id?: string) {
     }
   }
 }
+
+export async function resetInviteCode(id?: string) {
+  const session = await auth();
+  const token = session?.serverTokens.accessToken;
+  try {
+    const response = await axios.put(
+      `${SERVER_URL}/workspace/${id}/reset-invite-code`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}

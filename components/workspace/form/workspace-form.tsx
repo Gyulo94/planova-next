@@ -148,13 +148,13 @@ export default function WorkspaceForm({
           <Button
             type="button"
             variant={"secondary"}
-            size={"lg"}
+            size={"md"}
             onClick={onClose}
             disabled={isDisabled}
           >
             취소
           </Button>
-          <Button type="submit" size={"lg"} disabled={isDisabled}>
+          <Button type="submit" size={"md"} disabled={isDisabled}>
             {id ? "수정" : "생성"}
           </Button>
         </div>

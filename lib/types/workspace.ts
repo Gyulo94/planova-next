@@ -5,5 +5,6 @@ export type Workspace = {
   name: string;
   image?: string;
   owner: Session["user"];
+  inviteCode: string;
   createdAt: Date;
 };

@@ -12,5 +12,6 @@ export {
   useDeleteWorkspace,
   useFindWorkspace,
   useFindWorkspaceById,
+  useResetInviteCode,
   useUpdateWorkspace,
 } from "./workspace";

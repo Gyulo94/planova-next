@@ -7,6 +7,7 @@ import {
   deleteWorkspace,
   findWorkspaceById,
   findWorkspaces,
+  resetInviteCode,
   updateWorkspace,
 } from "../actions";
 import { WorkspaceFormSchema } from "../validations";
@@ -78,6 +79,24 @@ export function useDeleteWorkspace() {
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({ queryKey: ["workspace", { id }] });
       router.push(`/workspaces/${id}`);
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+  return mutation;
+}
+
+export function useResetInviteCode() {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (id: string) => resetInviteCode(id),
+    onSuccess: (data, id) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["workspace", { id }] });
     },
     onError: (error) => {
       if (error instanceof Error) {

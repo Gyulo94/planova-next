@@ -12,6 +12,7 @@ export {
   deleteWorkspace,
   findWorkspaceById,
   findWorkspaces,
+  resetInviteCode,
   updateWorkspace,
 } from "./workspace";
 
