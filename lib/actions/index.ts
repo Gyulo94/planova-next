@@ -16,4 +16,6 @@ export {
   updateWorkspace,
 } from "./workspace";
 
+export { joinWorkspace } from "./workspace-member";
+
 export { imageUpload } from "./file";

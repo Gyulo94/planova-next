@@ -15,3 +15,5 @@ export {
   useResetInviteCode,
   useUpdateWorkspace,
 } from "./workspace";
+
+export { useJoinWorkspace } from "./workspace-member";

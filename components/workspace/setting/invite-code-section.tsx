@@ -30,7 +30,7 @@ export default function InviteCodeSection({ workspaceId }: Props) {
   useEffect(() => {
     if (workspace?.inviteCode) {
       setFullInviteLink(
-        `${window.location.origin}/${workspaceId}/join/${workspace.inviteCode}`
+        `${window.location.origin}/workspaces/${workspaceId}/join/${workspace.inviteCode}`
       );
     }
   }, [workspaceId, workspace?.inviteCode]);
