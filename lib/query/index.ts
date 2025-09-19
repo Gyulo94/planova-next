@@ -16,4 +16,9 @@ export {
   useUpdateWorkspace,
 } from "./workspace";
 
-export { useJoinWorkspace } from "./workspace-member";
+export {
+  useFindMyWorkspaceMemberInfo,
+  useFindWorkspaceMembers,
+  useJoinWorkspace,
+  useRemoveWorkspaceMember,
+} from "./workspace-member";

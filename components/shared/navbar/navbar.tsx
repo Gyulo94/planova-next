@@ -4,7 +4,7 @@ import UserButton from "./user-button";
 
 export default function Navbar() {
   return (
-    <nav className="py-1 px-6 flex items-center justify-between bg-background w-full shadow-sm">
+    <nav className="py-1 px-6 h-16 flex items-center justify-between bg-background w-full shadow-sm">
       <MenuButton />
       <NavTitle />
       <UserButton />

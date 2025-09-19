@@ -105,12 +105,14 @@ export function useTitleAndDescription() {
   if (pathname.includes("/settings")) {
     return {
       title: "세팅",
-      description: "워크스페이스 정보를 관리하세요",
+    };
+  } else if (pathname.includes("/members")) {
+    return {
+      title: "멤버",
     };
   } else {
     return {
       title: "홈",
-      description: "모든 프로젝트를 모니터링하세요",
     };
   }
 }

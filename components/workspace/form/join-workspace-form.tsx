@@ -20,14 +20,17 @@ export default function JoinWorkspaceForm({ workspaceId }: Props) {
   const { data } = useFindWorkspaceById(workspaceId);
   const { mutate: joinWorkspace } = useJoinWorkspace(workspaceId);
   const workspace: Workspace = data;
-
   function handleJoinWorkspace(inviteCode: string) {
     if (!inviteCode || workspace.inviteCode !== inviteCode) {
       toast.error("유효하지 않은 초대 코드입니다.");
       router.replace("/");
       return;
     } else {
-      joinWorkspace(inviteCode);
+      joinWorkspace(inviteCode, {
+        onSuccess: () => {
+          router.replace(`/workspaces/${workspaceId}`);
+        },
+      });
     }
   }
   return (

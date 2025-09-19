@@ -16,6 +16,12 @@ export {
   updateWorkspace,
 } from "./workspace";
 
-export { joinWorkspace } from "./workspace-member";
+export {
+  findNyWorkspaceMemberInfo,
+  findWorkspaceMembers,
+  joinWorkspace,
+  removeWorkspaceMember,
+  updateWorkspaceMember,
+} from "./workspace-member";
 
 export { imageUpload } from "./file";
