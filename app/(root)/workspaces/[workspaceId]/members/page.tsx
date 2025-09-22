@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import MembersList from "@/components/member/members-list";
 import {
-  findNyWorkspaceMemberInfo,
+  findMyWorkspaceMemberInfo,
   findWorkspaceById,
   findWorkspaceMembers,
 } from "@/lib/actions";
@@ -26,7 +26,7 @@ export default async function MembersPage({ params }: Props) {
     }),
     queryClient.prefetchQuery({
       queryKey: ["workspace-member", { userId }],
-      queryFn: () => findNyWorkspaceMemberInfo(workspaceId),
+      queryFn: () => findMyWorkspaceMemberInfo(workspaceId),
     }),
     queryClient.prefetchQuery({
       queryKey: ["workspace", { id: workspaceId }],

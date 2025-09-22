@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
-  findNyWorkspaceMemberInfo,
+  findMyWorkspaceMemberInfo,
   findWorkspaceMembers,
   joinWorkspace,
   removeWorkspaceMember,
@@ -45,7 +45,7 @@ export function useFindMyWorkspaceMemberInfo(
   const query = useQuery({
     enabled: !!workspaceId && !!userId,
     queryKey: ["workspace-member", { userId }],
-    queryFn: () => findNyWorkspaceMemberInfo(workspaceId),
+    queryFn: () => findMyWorkspaceMemberInfo(workspaceId),
     retry: false,
   });
   return query;

@@ -1,3 +1,4 @@
+export type { Project } from "./project";
 export type { Workspace } from "./workspace";
 export type { WorkspaceMember } from "./workspace-member";
 

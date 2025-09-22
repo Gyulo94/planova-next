@@ -90,7 +90,7 @@ export async function updateWorkspaceMember(
   }
 }
 
-export async function findNyWorkspaceMemberInfo(workspaceId?: string) {
+export async function findMyWorkspaceMemberInfo(workspaceId?: string) {
   const session = await auth();
   const token = session?.serverTokens.accessToken;
   try {

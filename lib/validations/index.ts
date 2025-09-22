@@ -4,4 +4,5 @@ export {
   SignupFormSchema,
 } from "./auth";
 
+export { ProjectFormSchema } from "./project";
 export { WorkspaceFormSchema } from "./workspace";

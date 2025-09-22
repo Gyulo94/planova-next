@@ -17,11 +17,13 @@ export {
 } from "./workspace";
 
 export {
-  findNyWorkspaceMemberInfo,
+  findMyWorkspaceMemberInfo,
   findWorkspaceMembers,
   joinWorkspace,
   removeWorkspaceMember,
   updateWorkspaceMember,
 } from "./workspace-member";
+
+export { createProject, findProjectsByWorkspaceId } from "./project";
 
 export { imageUpload } from "./file";
