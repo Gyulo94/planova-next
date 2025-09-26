@@ -59,7 +59,6 @@ export default function Projects() {
     session?.user.id
   );
   const projects: Project[] = data || [];
-  console.log(projects);
 
   return (
     <>

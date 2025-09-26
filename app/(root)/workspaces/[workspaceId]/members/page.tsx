@@ -9,13 +9,13 @@ import { getQueryClient } from "@/lib/query/provider/get-query-client";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 interface Props {
-  params: {
+  params: Promise<{
     workspaceId: string;
-  };
+  }>;
 }
 
 export default async function MembersPage({ params }: Props) {
-  const { workspaceId } = params;
+  const { workspaceId } = await params;
   const session = await auth();
   const userId = session?.user.id;
   const queryClient = getQueryClient();

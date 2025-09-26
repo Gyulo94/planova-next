@@ -78,7 +78,7 @@ export function useDeleteWorkspace() {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({ queryKey: ["workspace", { id }] });
-      router.push(`/workspaces/${id}`);
+      router.push(`/`);
     },
     onError: (error) => {
       if (error instanceof Error) {

@@ -23,4 +23,10 @@ export {
   useRemoveWorkspaceMember,
 } from "./workspace-member";
 
-export { useCreateProject, useFindProjectsByWorkspaceId } from "./project";
+export {
+  useCreateProject,
+  useDeleteProject,
+  useFindProjectById,
+  useFindProjectsByWorkspaceId,
+  useUpdateProject,
+} from "./project";

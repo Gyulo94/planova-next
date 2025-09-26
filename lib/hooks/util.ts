@@ -97,6 +97,7 @@ export function useParameters() {
   return {
     workspaceId: params.workspaceId as string,
     inviteCode: params.inviteCode as string,
+    projectId: params.projectId as string,
   };
 }
 

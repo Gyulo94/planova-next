@@ -24,6 +24,12 @@ export {
   updateWorkspaceMember,
 } from "./workspace-member";
 
-export { createProject, findProjectsByWorkspaceId } from "./project";
+export {
+  createProject,
+  deleteProject,
+  findProjectById,
+  findProjectsByWorkspaceId,
+  updateProject,
+} from "./project";
 
 export { imageUpload } from "./file";

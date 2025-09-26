@@ -24,6 +24,49 @@ export async function createProject(values: z.infer<typeof ProjectFormSchema>) {
   }
 }
 
+export async function updateProject(
+  values: z.infer<typeof ProjectFormSchema>,
+  id?: string
+) {
+  const session = await auth();
+  const token = session?.serverTokens.accessToken;
+  try {
+    const response = await axios.put(
+      `${SERVER_URL}/project/${id}/update`,
+      values,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}
+
+export async function deleteProject(id?: string) {
+  const session = await auth();
+  const token = session?.serverTokens.accessToken;
+  try {
+    const response = await axios.delete(`${SERVER_URL}/project/${id}/delete`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}
+
 export async function findProjectsByWorkspaceId(workspaceId?: string) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
@@ -34,6 +77,22 @@ export async function findProjectsByWorkspaceId(workspaceId?: string) {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    return response.data.body;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}
+
+export async function findProjectById(id?: string) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.get(`${SERVER_URL}/project/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {
