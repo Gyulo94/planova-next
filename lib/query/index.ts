@@ -30,3 +30,5 @@ export {
   useFindProjectsByWorkspaceId,
   useUpdateProject,
 } from "./project";
+
+export { useCreateTask } from "./task";

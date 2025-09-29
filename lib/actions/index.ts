@@ -32,4 +32,6 @@ export {
   updateProject,
 } from "./project";
 
+export { createTask } from "./task";
+
 export { imageUpload } from "./file";

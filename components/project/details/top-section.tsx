@@ -17,7 +17,7 @@ export default function TopSection({ projectId, workspaceId }: Props) {
   const project: Project = data;
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
           <ProjectAvatar name={project.name} url={project.image} />
