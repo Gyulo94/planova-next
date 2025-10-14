@@ -181,9 +181,11 @@ export default function DataFilters({ workspaceId }: Props) {
                   <span>시작날짜</span>
                 )}
               </div>
-              <div>
-                <ChevronDownIcon className="size-4 opacity-50 ml-2" />
-              </div>
+              {!startDate && (
+                <div>
+                  <ChevronDownIcon className="size-4 opacity-50 ml-2" />
+                </div>
+              )}
               {startDate && (
                 <XIcon
                   className="z-50 size-4 text-destructive ml-2"
@@ -225,9 +227,11 @@ export default function DataFilters({ workspaceId }: Props) {
                   <span>마감날짜</span>
                 )}
               </div>
-              <div>
-                <ChevronDownIcon className="size-4 opacity-50 ml-2" />
-              </div>
+              {!dueDate && (
+                <div>
+                  <ChevronDownIcon className="size-4 opacity-50 ml-2" />
+                </div>
+              )}
               {dueDate && (
                 <XIcon
                   className="z-50 size-4 text-destructive ml-2"

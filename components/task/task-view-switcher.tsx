@@ -35,6 +35,7 @@ export default function TaskViewSwitcher({
     assigneeId: assigneeId || undefined,
     search: search || undefined,
     startDate: startDate || undefined,
+    dueDate: dueDate || undefined,
   };
   const { data: tasks } = useFindTasksByProjectId(projectId, filterOptions);
 
