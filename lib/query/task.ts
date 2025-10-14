@@ -1,6 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { createTask } from "../actions";
+import z from "zod/v3";
+import {
+  createTask,
+  deleteTask,
+  findTaskById,
+  findTasksByProjectId,
+  updateTask,
+} from "../actions";
+import { TaskFilterOptions } from "../types";
+import { TaskFormSchema } from "../validations";
 
 export function useCreateTask() {
   const queryClient = useQueryClient();
@@ -11,6 +20,68 @@ export function useCreateTask() {
       queryClient.invalidateQueries({
         queryKey: ["tasks", { projectId: data.body.project.id }],
       });
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+  return mutation;
+}
+
+export function useFindTasksByProjectId(
+  projectId: string,
+  filterOptions?: TaskFilterOptions
+) {
+  const query = useQuery({
+    queryKey: ["tasks", { projectId, filterOptions }],
+    queryFn: () => findTasksByProjectId(projectId, filterOptions),
+    enabled: !!projectId,
+  });
+  return query;
+}
+
+export function useFindTaskById(id?: string) {
+  const query = useQuery({
+    queryKey: ["task", { id }],
+    queryFn: () => findTaskById(id),
+    enabled: !!id,
+  });
+  return query;
+}
+
+export function useUpdateTask(projectId?: string, id?: string) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values: z.infer<typeof TaskFormSchema>) =>
+      updateTask(id, values),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", { projectId }],
+      });
+      queryClient.invalidateQueries({ queryKey: ["task", { id }] });
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+  return mutation;
+}
+
+export function useDeleteTask(projectId?: string) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (id: string) => deleteTask(id),
+    onSuccess: (data, id) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", { projectId }],
+      });
+      queryClient.invalidateQueries({ queryKey: ["task", { id }] });
     },
     onError: (error) => {
       if (error instanceof Error) {

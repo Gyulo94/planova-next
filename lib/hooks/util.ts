@@ -1,7 +1,9 @@
 import { imageUpload } from "@/lib/actions";
 import { useParams, usePathname } from "next/navigation";
+import { parseAsString, parseAsStringEnum, useQueryStates } from "nuqs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { TaskPriority, TaskStatus } from "../constants";
 
 interface UseImageUploadProps {
   maxImages?: number;
@@ -111,9 +113,39 @@ export function useTitleAndDescription() {
     return {
       title: "멤버",
     };
+  } else if (pathname.includes("/projects")) {
+    return {
+      title: "프로젝트",
+    };
   } else {
     return {
       title: "홈",
     };
   }
 }
+
+export function useTaskFilters() {
+  return useQueryStates({
+    projectId: parseAsString,
+    status: parseAsStringEnum(
+      Object.values(TaskStatus).map((status) => status.value)
+    ),
+    priority: parseAsStringEnum(
+      Object.values(TaskPriority).map((priority) => priority.value)
+    ),
+    assigneeId: parseAsString,
+    search: parseAsString,
+    startDate: parseAsString,
+    dueDate: parseAsString,
+  });
+}
+
+export const debounce = (func: (value: string) => void, delay: number) => {
+  let timerId: NodeJS.Timeout;
+  return function (...args: [string]) {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};

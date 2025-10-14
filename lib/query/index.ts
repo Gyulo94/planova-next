@@ -31,4 +31,10 @@ export {
   useUpdateProject,
 } from "./project";
 
-export { useCreateTask } from "./task";
+export {
+  useCreateTask,
+  useDeleteTask,
+  useFindTaskById,
+  useFindTasksByProjectId,
+  useUpdateTask,
+} from "./task";

@@ -46,14 +46,16 @@ export default function Navigation() {
     <SidebarGroup>
       <SidebarMenu>
         {routes.map((nav) => {
-          const href = `/workspaces/${workspaceId}/${nav.href}`;
+          const href =
+            nav.href === ""
+              ? `/workspaces/${workspaceId}`
+              : `/workspaces/${workspaceId}/${nav.href}`;
+          const isActive = pathname === href;
           return (
             <SidebarMenuItem
               key={nav.label}
               className={`${
-                pathname === href
-                  ? "bg-sidebar-accent"
-                  : "text-muted-foreground"
+                isActive ? "bg-sidebar-accent" : "text-muted-foreground"
               } rounded-md`}
             >
               <SidebarMenuButton asChild className="px-2 py-1.5">

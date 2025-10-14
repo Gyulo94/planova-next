@@ -32,6 +32,12 @@ export {
   updateProject,
 } from "./project";
 
-export { createTask } from "./task";
+export {
+  createTask,
+  deleteTask,
+  findTaskById,
+  findTasksByProjectId,
+  updateTask,
+} from "./task";
 
 export { imageUpload } from "./file";

@@ -23,6 +23,11 @@ export const TaskPriority = [
 
 export const TaskStatus = [
   {
+    value: "BACKLOG",
+    label: "백로그",
+    color: "bg-gray-600",
+  },
+  {
     value: "TODO",
     label: "할 일",
     color: "bg-blue-600",
@@ -33,18 +38,13 @@ export const TaskStatus = [
     color: "bg-amber-600",
   },
   {
-    value: "COMPLETED",
-    label: "완료",
-    color: "bg-green-600",
-  },
-  {
-    value: "BACKLOG",
-    label: "백로그",
-    color: "bg-gray-600",
-  },
-  {
     value: "IN_REVIEW",
     label: "검토 중",
     color: "bg-indigo-600",
+  },
+  {
+    value: "COMPLETED",
+    label: "완료",
+    color: "bg-green-600",
   },
 ] as const;

@@ -20,3 +20,22 @@ export const useOpenTaskDialogStore = create<TaskDialogState>((set) => ({
       workspaceId: undefined,
     })),
 }));
+
+interface TaskEditDialogState extends OpenState {
+  id?: string;
+  projectId?: string;
+  onOpen: (id?: string, projectId?: string) => void;
+}
+
+export const useEditTaskDialogStore = create<TaskEditDialogState>((set) => ({
+  id: undefined,
+  projectId: undefined,
+  isOpen: false,
+  onOpen: (id, projectId) => set(() => ({ id, projectId, isOpen: true })),
+  onClose: () =>
+    set(() => ({
+      isOpen: false,
+      id: undefined,
+      projectId: undefined,
+    })),
+}));
