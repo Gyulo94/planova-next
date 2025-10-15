@@ -9,11 +9,11 @@ import { format } from "date-fns";
 import { ArrowUpDown, MoreVerticalIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import UserAvatar from "../user/user-avatar";
-import TaskActions from "./task-actions";
-import TaskDate from "./task-date";
+import { Badge } from "../../ui/badge";
+import { Button } from "../../ui/button";
+import UserAvatar from "../../user/user-avatar";
+import TaskActions from "../task-actions";
+import TaskDate from "../task-date";
 
 export const columns: ColumnDef<Task>[] = [
   {

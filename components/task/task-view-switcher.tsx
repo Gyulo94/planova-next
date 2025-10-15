@@ -1,17 +1,25 @@
 "use client";
 
 import { useTaskFilters } from "@/lib/hooks/util";
-import { useFindTasksByProjectId, useFindWorkspaceMembers } from "@/lib/query";
+import {
+  useBulkUpdateTask,
+  useFindTasksByProjectId,
+  useFindWorkspaceMembers,
+} from "@/lib/query";
 import { useOpenTaskDialogStore, useWorkspaceMembers } from "@/lib/stores";
 import { TaskFilterOptions } from "@/lib/types";
+import { StatusTypes } from "@/lib/validations";
 import { PlusIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { useCallback } from "react";
+import z from "zod/v3";
 import { Button } from "../ui/button";
 import { DottedSeparator } from "../ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { columns } from "./columns";
 import DataFilters from "./data-filters";
-import { DataTable } from "./data-table";
+import DataKanban from "./kanban/data-kanban";
+import { columns } from "./table/columns";
+import { DataTable } from "./table/data-table";
 
 interface Props {
   workspaceId: string;
@@ -29,6 +37,7 @@ export default function TaskViewSwitcher({
   const { setMembers, setIsAdmin } = useWorkspaceMembers();
   const [{ status, assigneeId, priority, dueDate, startDate, search }] =
     useTaskFilters();
+  const { mutate: bulkUpdateTask } = useBulkUpdateTask(projectId);
   const filterOptions: TaskFilterOptions = {
     status: status || undefined,
     priority: priority || undefined,
@@ -42,6 +51,20 @@ export default function TaskViewSwitcher({
   const [view, setView] = useQueryState("view", {
     defaultValue: "table",
   });
+
+  const onKanbanChange = useCallback(
+    (
+      tasks: {
+        id: string;
+        status: z.infer<typeof StatusTypes>;
+        position: number;
+      }[]
+    ) => {
+      console.log(tasks);
+      bulkUpdateTask(tasks);
+    },
+    []
+  );
 
   return (
     <Tabs
@@ -82,7 +105,7 @@ export default function TaskViewSwitcher({
             <DataTable columns={columns} data={tasks ?? []} />
           </TabsContent>
           <TabsContent value="kanban" className="mt-0">
-            칸반
+            <DataKanban onChange={onKanbanChange} data={tasks ?? []} />
           </TabsContent>
           <TabsContent value="calendar" className="mt-0">
             캘린더

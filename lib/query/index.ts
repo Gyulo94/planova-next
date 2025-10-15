@@ -32,6 +32,7 @@ export {
 } from "./project";
 
 export {
+  useBulkUpdateTask,
   useCreateTask,
   useDeleteTask,
   useFindTaskById,

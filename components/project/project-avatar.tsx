@@ -9,7 +9,7 @@ interface Props {
   className?: string;
 }
 
-export default function UserAvatar({ name, url, size, className }: Props) {
+export default function ProjectAvatar({ name, url, size, className }: Props) {
   return (
     <Avatar
       className={cn(

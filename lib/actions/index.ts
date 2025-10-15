@@ -33,6 +33,7 @@ export {
 } from "./project";
 
 export {
+  bulkUpdateTask,
   createTask,
   deleteTask,
   findTaskById,

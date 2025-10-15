@@ -5,7 +5,7 @@ import axios from "axios";
 import z from "zod/v3";
 import { SERVER_URL } from "../constants";
 import { TaskFilterOptions } from "../types";
-import { TaskFormSchema } from "../validations";
+import { StatusTypes, TaskFormSchema } from "../validations";
 
 export async function createTask(values: z.infer<typeof TaskFormSchema>) {
   const session = await auth();
@@ -81,6 +81,31 @@ export async function updateTask(
         },
       }
     );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}
+
+export async function bulkUpdateTask(
+  values?: {
+    id: string;
+    status: z.infer<typeof StatusTypes>;
+    position: number;
+  }[]
+) {
+  const session = await auth();
+  const token = session?.serverTokens.accessToken;
+
+  try {
+    const response = await axios.put(`${SERVER_URL}/task/bulk-update`, values, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

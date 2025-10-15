@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import z from "zod/v3";
 import {
+  bulkUpdateTask,
   createTask,
   deleteTask,
   findTaskById,
@@ -9,7 +10,7 @@ import {
   updateTask,
 } from "../actions";
 import { TaskFilterOptions } from "../types";
-import { TaskFormSchema } from "../validations";
+import { StatusTypes, TaskFormSchema } from "../validations";
 
 export function useCreateTask() {
   const queryClient = useQueryClient();
@@ -62,6 +63,31 @@ export function useUpdateTask(projectId?: string, id?: string) {
         queryKey: ["tasks", { projectId }],
       });
       queryClient.invalidateQueries({ queryKey: ["task", { id }] });
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+  return mutation;
+}
+
+export function useBulkUpdateTask(projectId?: string) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (
+      values: {
+        id: string;
+        status: z.infer<typeof StatusTypes>;
+        position: number;
+      }[]
+    ) => bulkUpdateTask(values),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", { projectId }],
+      });
     },
     onError: (error) => {
       if (error instanceof Error) {
