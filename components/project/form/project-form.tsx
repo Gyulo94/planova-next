@@ -62,7 +62,7 @@ export default function ProjectForm({
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: uploadImages,
   });
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   return (
     <Form {...form}>

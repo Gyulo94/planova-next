@@ -19,7 +19,7 @@ export default function UpdateTaskDialog() {
   const { data, isLoading } = useFindTaskById(id);
   const task: Task = data ?? {};
 
-  console.log(task);
+  // console.log(task);
 
   const defaultValues = {
     name: task.name ?? "",

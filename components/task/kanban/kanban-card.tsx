@@ -32,7 +32,7 @@ export default function KanbanCard({ task }: Props) {
           <p className="text-xs text-neutral-500">
             {format(task.startDate, "yyyy-MM-dd")}
           </p>
-          <TaskDate value={task.startDate.toString()} className="text-xs" />
+          <TaskDate value={task.dueDate.toString()} className="text-xs" />
         </div>
         <Badge variant={task.priority}>{priorityLabel}</Badge>
       </div>

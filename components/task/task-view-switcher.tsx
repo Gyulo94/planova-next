@@ -16,6 +16,7 @@ import z from "zod/v3";
 import { Button } from "../ui/button";
 import { DottedSeparator } from "../ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import DataCalendar from "./calendar/data-calendar";
 import DataFilters from "./data-filters";
 import DataKanban from "./kanban/data-kanban";
 import { columns } from "./table/columns";
@@ -60,7 +61,7 @@ export default function TaskViewSwitcher({
         position: number;
       }[]
     ) => {
-      console.log(tasks);
+      // console.log(tasks);
       bulkUpdateTask(tasks);
     },
     []
@@ -107,8 +108,8 @@ export default function TaskViewSwitcher({
           <TabsContent value="kanban" className="mt-0">
             <DataKanban onChange={onKanbanChange} data={tasks ?? []} />
           </TabsContent>
-          <TabsContent value="calendar" className="mt-0">
-            캘린더
+          <TabsContent value="calendar" className="mt-0 h-full">
+            <DataCalendar data={tasks ?? []} />
           </TabsContent>
         </>
       </div>
