@@ -17,9 +17,15 @@ interface Props {
   id: string;
   projectId: string;
   children: ReactNode;
+  onClick?: () => void;
 }
 
-export default function TaskActions({ id, projectId, children }: Props) {
+export default function TaskActions({
+  id,
+  projectId,
+  children,
+  onClick,
+}: Props) {
   const { mutate: deleteTask } = useDeleteTask(projectId);
   const { data: session } = useSession();
   const { workspaceId } = useParameters();
@@ -54,7 +60,9 @@ export default function TaskActions({ id, projectId, children }: Props) {
       <ConfirmDialog />
       <div className="flex justify-end">
         <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild onClick={onClick}>
+            {children}
+          </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuItem
               onClick={onViewDetails}

@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import TaskForm from "./form/task-form";
 
 export default function CreateTaskDialog() {
-  const { isOpen, onClose, projectId } = useOpenTaskDialogStore();
+  const { isOpen, onClose, projectId, selectedDate } = useOpenTaskDialogStore();
   const { data: session } = useSession();
   const [isDisabled, setIsDisabled] = useState(false);
   const { mutate: createTask } = useCreateTask();
@@ -20,8 +20,8 @@ export default function CreateTaskDialog() {
     description: "",
     status: "TODO" as z.infer<typeof StatusTypes>,
     priority: "MEDIUM" as z.infer<typeof PriorityTypes>,
-    startDate: new Date(),
-    dueDate: new Date(),
+    startDate: selectedDate ? selectedDate : new Date(),
+    dueDate: selectedDate ? selectedDate : new Date(),
     assigneeId: session?.user.id ?? "",
     projectId,
   };

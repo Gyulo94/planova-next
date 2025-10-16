@@ -1,5 +1,8 @@
 "use client";
 
+import { useParameters } from "@/lib/hooks/util";
+import { useFindWorkspaceMembers } from "@/lib/query";
+import { useOpenTaskDialogStore, useWorkspaceMembers } from "@/lib/stores";
 import { Task } from "@/lib/types";
 import {
   addMonths,
@@ -10,6 +13,7 @@ import {
   subMonths,
 } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -33,9 +37,15 @@ const localizer = dateFnsLocalizer({
 });
 
 export default function DataCalendar({ data }: Props) {
+  const { onOpen } = useOpenTaskDialogStore();
+  const { workspaceId, projectId } = useParameters();
+  const { data: workspaceMembers } = useFindWorkspaceMembers(workspaceId);
+  const { setMembers, setIsAdmin } = useWorkspaceMembers();
+  const { data: session } = useSession();
   const [value, setValue] = useState(
     data.length > 0 ? new Date(data[0].dueDate) : new Date()
   );
+  const userId = session?.user.id;
 
   const events = data.map((task) => ({
     start: new Date(task.startDate),
@@ -70,6 +80,12 @@ export default function DataCalendar({ data }: Props) {
       showAllEvents
       className="h-full"
       max={new Date(new Date().setFullYear(new Date().getFullYear() + 1))}
+      selectable
+      onSelectSlot={(slotInfo) => {
+        setMembers(workspaceMembers.members || []);
+        setIsAdmin(userId!);
+        onOpen(projectId, workspaceId, slotInfo.start);
+      }}
       formats={{
         weekdayFormat: (date, culture, localizer) =>
           localizer?.format(date, "EEE", culture) ?? "",
