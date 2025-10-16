@@ -156,10 +156,6 @@
   background: inherit !important;
 }
 
-.rbc-month-row .rbc-date-cell:hover {
-  @apply !bg-slate-100 !cursor-pointer !transition-colors;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
