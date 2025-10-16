@@ -1,14 +1,18 @@
 import { cn } from "@/lib/utils";
 import { differenceInDays, format } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
+import { ko } from "date-fns/locale";
 
 interface Props {
   value: string;
   className?: string;
+  dateFormat?: string;
 }
 
-export default function TaskDate({ value, className }: Props) {
-  const today = new Date();
-  const endDate = new Date(value);
+export default function TaskDate({ value, className, dateFormat }: Props) {
+  const KST = "Asia/Seoul";
+  const today = toZonedTime(new Date(), KST);
+  const endDate = toZonedTime(new Date(value), KST);
   const diffInDays = differenceInDays(endDate, today);
   let textColor = "text-muted-foreground";
   if (diffInDays <= 3) {
@@ -22,8 +26,9 @@ export default function TaskDate({ value, className }: Props) {
   return (
     <div className={textColor}>
       <span className={cn("truncate", className)}>
-        {format(value, "yyyy-MM-dd")}{" "}
-        {diffInDays < 0 ? "(마감됨)" : `(${diffInDays}일 남음)`}
+        {dateFormat === "PPP"
+          ? format(value, "PPP", { locale: ko })
+          : format(value, "yyyy-MM-dd")}
       </span>
     </div>
   );

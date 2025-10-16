@@ -5,31 +5,24 @@ interface TaskDialogState extends OpenState {
   projectId?: string;
   workspaceId?: string;
   selectedDate?: Date;
-  onOpen: (
-    projectId?: string,
-    workspaceId?: string,
-    selectedDate?: Date
-  ) => void;
+  onOpen: (projectId?: string, workspaceId?: string) => void;
 }
 
 export const useOpenTaskDialogStore = create<TaskDialogState>((set) => ({
   projectId: undefined,
   workspaceId: undefined,
-  selectedDate: undefined,
   isOpen: false,
-  onOpen: (projectId, workspaceId, selectedDate) =>
+  onOpen: (projectId, workspaceId) =>
     set(() => ({
       projectId,
       workspaceId,
       isOpen: true,
-      selectedDate,
     })),
   onClose: () =>
     set(() => ({
       isOpen: false,
       projectId: undefined,
       workspaceId: undefined,
-      selectedDate: undefined,
     })),
 }));
 

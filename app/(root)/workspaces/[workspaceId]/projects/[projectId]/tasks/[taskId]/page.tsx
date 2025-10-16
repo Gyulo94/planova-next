@@ -1,59 +1,36 @@
-import { auth } from "@/auth";
-import TaskViewSwitcher from "@/components/task/task-view-switcher";
-import {
-  findProjectById,
-  findTasksByProjectId,
-  findWorkspaceMembers,
-} from "@/lib/actions";
+import TaskDetail from "@/components/task/detail/task-detail";
+import { findTaskById, findWorkspaceMembers } from "@/lib/actions";
 import { getQueryClient } from "@/lib/query/provider/get-query-client";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 interface Props {
   params: Promise<{
-    projectId: string;
+    taskId: string;
     workspaceId: string;
   }>;
-  searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
-export default async function TasksPage({ params, searchParams }: Props) {
-  const { projectId, workspaceId } = await params;
-  const session = await auth();
-  const userId = session?.user.id;
-
-  const filterOptions = {
-    status: (await searchParams).status,
-    priority: (await searchParams).priority,
-    search: (await searchParams).search,
-    assigneeId: (await searchParams).assigneeId,
-    startDate: (await searchParams).startDate,
-  };
+export default async function TasksPage({ params }: Props) {
+  const { taskId, workspaceId } = await params;
 
   const queryClient = getQueryClient();
+
   await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["task", { id: taskId }],
+      queryFn: () => findTaskById(taskId),
+    }),
     queryClient.prefetchQuery({
       queryKey: ["workspace-members"],
       queryFn: () => findWorkspaceMembers(workspaceId),
     }),
-    queryClient.prefetchQuery({
-      queryKey: ["project", { id: projectId }],
-      queryFn: () => findProjectById(projectId),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: ["tasks", { projectId, filterOptions }],
-      queryFn: () => findTasksByProjectId(projectId, filterOptions),
-    }),
   ]);
+
   const state = dehydrate(queryClient);
+
   return (
-    <div>
-      <HydrationBoundary state={state}>
-        <TaskViewSwitcher
-          projectId={projectId}
-          workspaceId={workspaceId}
-          userId={userId}
-        />
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={state}>
+      <TaskDetail taskId={taskId} workspaceId={workspaceId} />
+    </HydrationBoundary>
   );
 }
