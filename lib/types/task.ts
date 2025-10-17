@@ -24,3 +24,16 @@ export type Task = {
   assignee: Session["user"];
   project: Project;
 };
+
+export type TaskCount = {
+  total: number;
+  difference: number;
+};
+
+export type TotalTaskCounts = {
+  totalCount: TaskCount;
+  completedCount: TaskCount;
+  incompleteCount: TaskCount;
+  assignedCount: TaskCount;
+  overdueCount: TaskCount;
+};

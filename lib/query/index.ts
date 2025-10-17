@@ -28,6 +28,7 @@ export {
   useDeleteProject,
   useFindProjectById,
   useFindProjectsByWorkspaceId,
+  useFindTaskCountsById,
   useUpdateProject,
 } from "./project";
 

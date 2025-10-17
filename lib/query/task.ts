@@ -21,6 +21,9 @@ export function useCreateTask() {
       queryClient.invalidateQueries({
         queryKey: ["tasks", { projectId: data.body.project.id }],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["project", "count", { id: data.body.project.id }],
+      });
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -63,6 +66,9 @@ export function useUpdateTask(projectId?: string, id?: string) {
         queryKey: ["tasks", { projectId }],
       });
       queryClient.invalidateQueries({ queryKey: ["task", { id }] });
+      queryClient.invalidateQueries({
+        queryKey: ["project", "count", { id: projectId }],
+      });
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -88,6 +94,9 @@ export function useBulkUpdateTask(projectId?: string) {
       queryClient.invalidateQueries({
         queryKey: ["tasks", { projectId }],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["project", "count", { id: projectId }],
+      });
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -108,6 +117,9 @@ export function useDeleteTask(projectId?: string) {
         queryKey: ["tasks", { projectId }],
       });
       queryClient.invalidateQueries({ queryKey: ["task", { id }] });
+      queryClient.invalidateQueries({
+        queryKey: ["project", "count", { id: projectId }],
+      });
     },
     onError: (error) => {
       if (error instanceof Error) {

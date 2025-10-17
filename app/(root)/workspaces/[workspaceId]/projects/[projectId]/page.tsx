@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
-import TopSection from "@/components/project/details/top-section";
+import ProjectAnalyticSection from "@/components/project/details/project-analytic-section";
+import ProjectSection from "@/components/project/details/project-section";
 import TaskViewSwitcher from "@/components/task/task-view-switcher";
 import {
   findProjectById,
+  findTaskCountsById,
   findTasksByProjectId,
   findWorkspaceMembers,
 } from "@/lib/actions";
@@ -44,12 +46,17 @@ export default async function ProjectIdPage({ params, searchParams }: Props) {
       queryKey: ["tasks", { projectId, filterOptions }],
       queryFn: () => findTasksByProjectId(projectId, filterOptions),
     }),
+    queryClient.prefetchQuery({
+      queryKey: ["project", "count", { id: projectId }],
+      queryFn: () => findTaskCountsById(projectId),
+    }),
   ]);
   const state = dehydrate(queryClient);
   return (
     <div>
       <HydrationBoundary state={state}>
-        <TopSection workspaceId={workspaceId} projectId={projectId} />
+        <ProjectSection workspaceId={workspaceId} projectId={projectId} />
+        <ProjectAnalyticSection projectId={projectId} />
         <TaskViewSwitcher
           workspaceId={workspaceId}
           projectId={projectId}

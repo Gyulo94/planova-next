@@ -29,6 +29,7 @@ export {
   deleteProject,
   findProjectById,
   findProjectsByWorkspaceId,
+  findTaskCountsById,
   updateProject,
 } from "./project";
 

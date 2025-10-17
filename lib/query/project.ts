@@ -7,6 +7,7 @@ import {
   deleteProject,
   findProjectById,
   findProjectsByWorkspaceId,
+  findTaskCountsById,
   updateProject,
 } from "../actions";
 import { ProjectFormSchema } from "../validations";
@@ -88,6 +89,16 @@ export function useFindProjectById(id?: string) {
     enabled: !!id,
     queryKey: ["project", { id }],
     queryFn: () => findProjectById(id),
+    retry: false,
+  });
+  return query;
+}
+
+export function useFindTaskCountsById(id?: string) {
+  const query = useQuery({
+    enabled: !!id,
+    queryKey: ["project", "count", { id }],
+    queryFn: () => findTaskCountsById(id),
     retry: false,
   });
   return query;

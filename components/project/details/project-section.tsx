@@ -12,7 +12,7 @@ interface Props {
   workspaceId: string;
 }
 
-export default function TopSection({ projectId, workspaceId }: Props) {
+export default function ProjectSection({ projectId, workspaceId }: Props) {
   const { data } = useFindProjectById(projectId);
   const project: Project = data;
 
