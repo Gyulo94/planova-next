@@ -13,7 +13,7 @@ export default function CreateTaskDialog() {
   const { isOpen, onClose, projectId } = useOpenTaskDialogStore();
   const { data: session } = useSession();
   const [isDisabled, setIsDisabled] = useState(false);
-  const { mutate: createTask } = useCreateTask();
+  const { mutate: createTask } = useCreateTask(session?.user.id);
 
   const defaultValues = {
     name: "",
@@ -23,7 +23,7 @@ export default function CreateTaskDialog() {
     startDate: new Date(),
     dueDate: new Date(),
     assigneeId: session?.user.id ?? "",
-    projectId,
+    projectId: projectId ?? "",
   };
 
   function onSubmit(values: z.infer<typeof TaskFormSchema>) {

@@ -1,17 +1,20 @@
 "use client";
 
-import { useTaskFilters } from "@/lib/hooks/util";
 import {
   useBulkUpdateTask,
-  useFindTasksByProjectId,
+  useFindWorkspaceById,
   useFindWorkspaceMembers,
 } from "@/lib/query";
-import { useOpenTaskDialogStore, useWorkspaceMembers } from "@/lib/stores";
-import { TaskFilterOptions } from "@/lib/types";
+import {
+  useOpenTaskDialogStore,
+  useProjects,
+  useWorkspaceMembers,
+} from "@/lib/stores";
+import { Task } from "@/lib/types";
 import { StatusTypes } from "@/lib/validations";
 import { PlusIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import z from "zod/v3";
 import { Button } from "../ui/button";
 import { DottedSeparator } from "../ui/separator";
@@ -24,34 +27,35 @@ import { DataTable } from "./table/data-table";
 
 interface Props {
   workspaceId: string;
-  projectId: string;
+  projectId?: string;
   userId?: string;
+  tasks: Task[];
+  type: "workspace" | "project";
 }
 
 export default function TaskViewSwitcher({
   workspaceId,
   projectId,
   userId,
+  tasks,
+  type,
 }: Props) {
   const { onOpen } = useOpenTaskDialogStore();
   const { data: workspaceMembers } = useFindWorkspaceMembers(workspaceId);
-  const { setMembers, setIsAdmin } = useWorkspaceMembers();
-  const [{ status, assigneeId, priority, dueDate, startDate, search }] =
-    useTaskFilters();
+  const { data: workspace } = useFindWorkspaceById(workspaceId);
+  const { setProjects } = useProjects();
+  const { setMembers, setIsAdmin, isAdmin } = useWorkspaceMembers();
+
   const { mutate: bulkUpdateTask } = useBulkUpdateTask(projectId);
-  const filterOptions: TaskFilterOptions = {
-    status: status || undefined,
-    priority: priority || undefined,
-    assigneeId: assigneeId || undefined,
-    search: search || undefined,
-    startDate: startDate || undefined,
-    dueDate: dueDate || undefined,
-  };
-  const { data: tasks } = useFindTasksByProjectId(projectId, filterOptions);
 
   const [view, setView] = useQueryState("view", {
     defaultValue: "table",
   });
+
+  useEffect(() => {
+    setMembers(workspaceMembers.members || []);
+    setIsAdmin(userId!);
+  }, [setMembers, setIsAdmin]);
 
   const onKanbanChange = useCallback(
     (
@@ -90,8 +94,7 @@ export default function TaskViewSwitcher({
             size={"sm"}
             className="w-full lg:w-auto"
             onClick={() => {
-              setMembers(workspaceMembers.members || []);
-              setIsAdmin(userId!);
+              setProjects(workspace.projects || []);
               onOpen(projectId, workspaceId);
             }}
           >
@@ -99,7 +102,7 @@ export default function TaskViewSwitcher({
           </Button>
         </div>
         <DottedSeparator className="my-4" />
-        <DataFilters workspaceId={workspaceId} />
+        <DataFilters workspaceId={workspaceId} type={type} />
         <DottedSeparator className="my-4" />
         <>
           <TabsContent value="table" className="mt-0">

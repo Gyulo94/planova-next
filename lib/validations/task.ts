@@ -14,7 +14,7 @@ export const TaskFormSchema = z.object({
   name: z.string().min(1, "작업 이름을 입력해주세요.").trim(),
   description: z.string().optional(),
   assigneeId: z.string().min(1, "담당자를 선택하세요."),
-  projectId: z.string().optional(),
+  projectId: z.string().min(1, "프로젝트를 선택하세요."),
   startDate: z.date(),
   dueDate: z.date().optional(),
   priority: PriorityTypes,

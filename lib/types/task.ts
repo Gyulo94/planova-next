@@ -10,6 +10,7 @@ export type TaskFilterOptions = {
   startDate?: string;
   projectId?: string;
   search?: string;
+  workspaceId?: string;
 };
 
 export type Task = {

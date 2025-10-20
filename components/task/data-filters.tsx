@@ -2,8 +2,8 @@
 
 import { TaskPriority, TaskStatus } from "@/lib/constants";
 import { debounce, useTaskFilters } from "@/lib/hooks/util";
-import { useFindWorkspaceMembers } from "@/lib/query";
-import { WorkspaceMember } from "@/lib/types";
+import { useFindWorkspaceById, useFindWorkspaceMembers } from "@/lib/query";
+import { Project, WorkspaceMember } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -14,6 +14,7 @@ import {
   XIcon,
 } from "lucide-react";
 import { ChangeEvent, useState } from "react";
+import ProjectAvatar from "../project/project-avatar";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
@@ -30,9 +31,10 @@ import UserAvatar from "../user/user-avatar";
 
 interface Props {
   workspaceId: string;
+  type: "workspace" | "project";
 }
 
-export default function DataFilters({ workspaceId }: Props) {
+export default function DataFilters({ workspaceId, type }: Props) {
   const [
     { status, assigneeId, priority, projectId, dueDate, startDate, search },
     setFilters,
@@ -40,7 +42,9 @@ export default function DataFilters({ workspaceId }: Props) {
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [dueDateOpen, setDueDateOpen] = useState(false);
   const { data: workspaceMembers } = useFindWorkspaceMembers(workspaceId);
+  const { data: workspace } = useFindWorkspaceById(workspaceId);
   const members: WorkspaceMember[] = workspaceMembers.members;
+  const projects: Project[] = workspace.projects || [];
 
   function handleDebounceSearch(value: string) {
     setFilters({ search: value === "" ? null : value });
@@ -73,6 +77,12 @@ export default function DataFilters({ workspaceId }: Props) {
   function onAssigneeChange(value: string) {
     setFilters({
       assigneeId: value === "all" ? null : value,
+    });
+  }
+
+  function onProjectChange(value: string) {
+    setFilters({
+      projectId: value === "all" ? null : value,
     });
   }
 
@@ -133,33 +143,63 @@ export default function DataFilters({ workspaceId }: Props) {
             ))}
           </SelectContent>
         </Select>
-        <Select
-          defaultValue={projectId ?? undefined}
-          onValueChange={onAssigneeChange}
-        >
-          <SelectTrigger className="w-full lg:w-auto h-8">
-            <div className="flex items-center pr-2">
-              {!assigneeId && <ListChecksIcon className="size-4 mr-2" />}
-              <SelectValue placeholder="모든 담당자" />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">모든 담당자</SelectItem>
-            <SelectSeparator />
-            {members.map((member) => (
-              <SelectItem key={member.id} value={member.id}>
-                <div className="flex items-center gap-2">
-                  <UserAvatar
-                    name={member.name}
-                    url={member.image}
-                    className="size-6"
-                  />
-                  <span>{member.name}</span>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {type === "workspace" ? (
+          <Select
+            defaultValue={projectId ?? undefined}
+            onValueChange={onProjectChange}
+          >
+            <SelectTrigger className="w-full lg:w-auto h-8">
+              <div className="flex items-center pr-2">
+                {!projectId && <ListChecksIcon className="size-4 mr-2" />}
+                <SelectValue placeholder="모든 프로젝트" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">모든 프로젝트</SelectItem>
+              <SelectSeparator />
+              {projects.map((project) => (
+                <SelectItem key={project.id} value={project.id}>
+                  <div className="flex items-center gap-2">
+                    <ProjectAvatar
+                      name={project.name}
+                      url={project.image}
+                      className="size-6"
+                    />
+                    <span>{project.name}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : (
+          <Select
+            defaultValue={assigneeId ?? undefined}
+            onValueChange={onAssigneeChange}
+          >
+            <SelectTrigger className="w-full lg:w-auto h-8">
+              <div className="flex items-center pr-2">
+                {!assigneeId && <ListChecksIcon className="size-4 mr-2" />}
+                <SelectValue placeholder="모든 담당자" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">모든 담당자</SelectItem>
+              <SelectSeparator />
+              {members.map((member) => (
+                <SelectItem key={member.id} value={member.id}>
+                  <div className="flex items-center gap-2">
+                    <UserAvatar
+                      name={member.name}
+                      url={member.image}
+                      className="size-6"
+                    />
+                    <span>{member.name}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
         <Popover
           modal={true}
           open={startDateOpen}

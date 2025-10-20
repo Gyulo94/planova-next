@@ -1,5 +1,6 @@
 "use client";
 
+import ProjectAvatar from "@/components/project/project-avatar";
 import { TaskPriority, TaskStatus } from "@/lib/constants";
 import { useParameters } from "@/lib/hooks/util";
 import { useFindMyWorkspaceMemberInfo } from "@/lib/query";
@@ -95,6 +96,32 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <div className="flex items-center gap-x-2 justify-center text-sm font-medium">
           <Badge variant={priority}>{label}</Badge>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "project",
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center justify-center text-muted-foreground">
+          <Button
+            variant="ghost"
+            size={"sm"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            프로젝트
+            <ArrowUpDown className="ml-2 size-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const project = row.original.project;
+      return (
+        <div className="flex items-center justify-center gap-x-2 text-sm font-medium">
+          <ProjectAvatar name={project.name} url={project.image} />
+          <p className="line-clamp-1">{project.name}</p>
         </div>
       );
     },

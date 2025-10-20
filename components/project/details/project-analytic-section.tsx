@@ -1,7 +1,7 @@
 "use client";
 
 import Analytics from "@/components/ui/analytics";
-import { useFindTaskCountsById } from "@/lib/query";
+import { useFindTaskCountsByProjectId } from "@/lib/query";
 import { TotalTaskCounts } from "@/lib/types";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function ProjectAnalyticSection({ projectId }: Props) {
-  const { data } = useFindTaskCountsById(projectId);
+  const { data } = useFindTaskCountsByProjectId(projectId);
   const taskCounts: TotalTaskCounts = data;
   return <Analytics data={taskCounts} />;
 }

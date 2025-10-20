@@ -1,7 +1,11 @@
 import { TaskStatus } from "@/lib/constants";
 import { useParameters } from "@/lib/hooks/util";
-import { useFindWorkspaceMembers } from "@/lib/query";
-import { useOpenTaskDialogStore, useWorkspaceMembers } from "@/lib/stores";
+import { useFindWorkspaceById, useFindWorkspaceMembers } from "@/lib/query";
+import {
+  useOpenTaskDialogStore,
+  useProjects,
+  useWorkspaceMembers,
+} from "@/lib/stores";
 import { StatusTypes } from "@/lib/validations";
 import {
   CircleCheckIcon,
@@ -46,6 +50,8 @@ export default function KanbanColumnHeader({ status, taskCount }: Props) {
   const { onOpen } = useOpenTaskDialogStore();
   const { workspaceId, projectId } = useParameters();
   const { data: workspaceMembers } = useFindWorkspaceMembers(workspaceId);
+  const { data: workspace } = useFindWorkspaceById(workspaceId);
+  const { setProjects } = useProjects();
   const { setMembers, setIsAdmin } = useWorkspaceMembers();
   const statusIcon = statusIconMap[status.value as z.infer<typeof StatusTypes>];
   const userId = session?.user.id;
@@ -61,6 +67,7 @@ export default function KanbanColumnHeader({ status, taskCount }: Props) {
       <Button
         onClick={() => {
           setMembers(workspaceMembers.members || []);
+          setProjects(workspace.projects || []);
           setIsAdmin(userId!);
           onOpen(projectId, workspaceId);
         }}

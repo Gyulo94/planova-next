@@ -32,12 +32,40 @@ export async function findTasksByProjectId(
   const session = await auth();
   const token = session?.serverTokens.accessToken;
   try {
-    const response = await axios.get(`${SERVER_URL}/task/${projectId}/all`, {
-      params: filterOptions,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${SERVER_URL}/task/project/${projectId}/all`,
+      {
+        params: filterOptions,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.body;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}
+
+export async function findTasksByWorkspaceId(
+  workspaceId?: string,
+  filterOptions?: TaskFilterOptions
+) {
+  const session = await auth();
+  const token = session?.serverTokens.accessToken;
+  try {
+    const response = await axios.get(
+      `${SERVER_URL}/task/workspace/${workspaceId}/all`,
+      {
+        params: filterOptions,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {

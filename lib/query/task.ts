@@ -7,12 +7,13 @@ import {
   deleteTask,
   findTaskById,
   findTasksByProjectId,
+  findTasksByWorkspaceId,
   updateTask,
 } from "../actions";
 import { TaskFilterOptions } from "../types";
 import { StatusTypes, TaskFormSchema } from "../validations";
 
-export function useCreateTask() {
+export function useCreateTask(userId?: string) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createTask,
@@ -22,7 +23,21 @@ export function useCreateTask() {
         queryKey: ["tasks", { projectId: data.body.project.id }],
       });
       queryClient.invalidateQueries({
+        queryKey: [
+          "tasks",
+          { workspaceId: data.body.project.workspaceId, userId },
+        ],
+      });
+
+      queryClient.invalidateQueries({
         queryKey: ["project", "count", { id: data.body.project.id }],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "workspace",
+          "count",
+          { workspaceId: data.body.project.workspaceId, userId },
+        ],
       });
     },
     onError: (error) => {
@@ -46,6 +61,19 @@ export function useFindTasksByProjectId(
   return query;
 }
 
+export function useFindTasksByWorkspaceId(
+  workspaceId: string,
+  userId?: string,
+  filterOptions?: TaskFilterOptions
+) {
+  const query = useQuery({
+    queryKey: ["tasks", { workspaceId, filterOptions, userId }],
+    queryFn: () => findTasksByWorkspaceId(workspaceId, filterOptions),
+    enabled: !!workspaceId && !!userId,
+  });
+  return query;
+}
+
 export function useFindTaskById(id?: string) {
   const query = useQuery({
     queryKey: ["task", { id }],
@@ -55,7 +83,11 @@ export function useFindTaskById(id?: string) {
   return query;
 }
 
-export function useUpdateTask(projectId?: string, id?: string) {
+export function useUpdateTask(
+  projectId?: string,
+  id?: string,
+  userId?: string
+) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values: z.infer<typeof TaskFormSchema>) =>
@@ -65,9 +97,22 @@ export function useUpdateTask(projectId?: string, id?: string) {
       queryClient.invalidateQueries({
         queryKey: ["tasks", { projectId }],
       });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "tasks",
+          { workspaceId: data.body.project.workspaceId, userId },
+        ],
+      });
       queryClient.invalidateQueries({ queryKey: ["task", { id }] });
       queryClient.invalidateQueries({
         queryKey: ["project", "count", { id: projectId }],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "workspace",
+          "count",
+          { workspaceId: data.body.project.workspaceId, userId },
+        ],
       });
     },
     onError: (error) => {

@@ -15,11 +15,9 @@ export default function UpdateTaskDialog() {
   const { isOpen, onClose, projectId, id } = useEditTaskDialogStore();
   const { data: session } = useSession();
   const [isDisabled, setIsDisabled] = useState(false);
-  const { mutate: updateTask } = useUpdateTask(projectId, id);
+  const { mutate: updateTask } = useUpdateTask(projectId, id, session?.user.id);
   const { data, isLoading } = useFindTaskById(id);
   const task: Task = data ?? {};
-
-  // console.log(task);
 
   const defaultValues = {
     name: task.name ?? "",
@@ -29,7 +27,7 @@ export default function UpdateTaskDialog() {
     startDate: new Date(task.startDate) ?? new Date(),
     dueDate: new Date(task.dueDate) ?? new Date(),
     assigneeId: task.assignee?.id,
-    projectId,
+    projectId: projectId ?? "",
   };
 
   function onSubmit(values: z.infer<typeof TaskFormSchema>) {

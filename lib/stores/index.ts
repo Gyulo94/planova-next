@@ -3,6 +3,6 @@ export {
   useOpenWorkspaceDialogStore,
 } from "./workspace";
 
-export { useOpenProjectDialogStore } from "./project";
+export { useOpenProjectDialogStore, useProjects } from "./project";
 export { useEditTaskDialogStore, useOpenTaskDialogStore } from "./task";
 export { useWorkspaceMembers } from "./workspace-member";

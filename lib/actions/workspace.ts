@@ -133,3 +133,22 @@ export async function resetInviteCode(id?: string) {
     }
   }
 }
+
+export async function findTaskCountsByWorkspaceId(id?: string) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.get(
+      `${SERVER_URL}/workspace/${id}/analytics`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data.body;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}

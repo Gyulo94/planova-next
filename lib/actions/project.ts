@@ -102,7 +102,7 @@ export async function findProjectById(id?: string) {
   }
 }
 
-export async function findTaskCountsById(id?: string) {
+export async function findTaskCountsByProjectId(id?: string) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   try {

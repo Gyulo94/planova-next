@@ -10,6 +10,7 @@ export {
 export {
   createWorkspace,
   deleteWorkspace,
+  findTaskCountsByWorkspaceId,
   findWorkspaceById,
   findWorkspaces,
   resetInviteCode,
@@ -29,7 +30,7 @@ export {
   deleteProject,
   findProjectById,
   findProjectsByWorkspaceId,
-  findTaskCountsById,
+  findTaskCountsByProjectId,
   updateProject,
 } from "./project";
 
@@ -39,6 +40,7 @@ export {
   deleteTask,
   findTaskById,
   findTasksByProjectId,
+  findTasksByWorkspaceId,
   updateTask,
 } from "./task";
 

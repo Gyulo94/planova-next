@@ -1,5 +1,6 @@
 "use client";
 
+import ProjectAvatar from "@/components/project/project-avatar";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -26,7 +27,11 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import UserAvatar from "@/components/user/user-avatar";
 import { TaskPriority, TaskStatus } from "@/lib/constants";
-import { useWorkspaceMembers } from "@/lib/stores";
+import {
+  useOpenTaskDialogStore,
+  useProjects,
+  useWorkspaceMembers,
+} from "@/lib/stores";
 import { cn } from "@/lib/utils";
 import { TaskFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,6 +55,8 @@ export default function TaskForm({
   onClose,
   isDisabled,
 }: Props) {
+  const { projects } = useProjects();
+  const { projectId } = useOpenTaskDialogStore();
   const { members, isAdmin } = useWorkspaceMembers();
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [endDateOpen, setEndDateOpen] = useState(false);
@@ -302,6 +309,45 @@ export default function TaskForm({
                   {...field}
                 />
               </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="projectId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>프로젝트</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={!!projectId}
+              >
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="프로젝트를 선택하세요" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {projects.map((project) => (
+                    <SelectItem
+                      key={project.id}
+                      value={project.id}
+                      className="h-12"
+                    >
+                      <div className="flex items-center gap-2">
+                        <ProjectAvatar
+                          name={project.name}
+                          url={project.image}
+                          className="size-6"
+                        />
+                        <span>{project.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />

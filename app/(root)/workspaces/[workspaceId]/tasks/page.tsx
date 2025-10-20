@@ -1,11 +1,8 @@
 import { auth } from "@/auth";
-import ProjectAnalyticSection from "@/components/project/details/project-analytic-section";
-import ProjectSection from "@/components/project/details/project-section";
-import ProjectSwitcher from "@/components/task/table/switcher/project-switcher";
+import WorkspaceSwitcher from "@/components/task/table/switcher/workspace-switcher";
+import WorkspaceAnalyticSection from "@/components/workspace/workspace-analytic-section";
 import {
-  findProjectById,
-  findTaskCountsByProjectId,
-  findTasksByProjectId,
+  findTaskCountsByWorkspaceId,
   findWorkspaceById,
   findWorkspaceMembers,
 } from "@/lib/actions";
@@ -20,14 +17,14 @@ interface Props {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
-export default async function ProjectIdPage({ params, searchParams }: Props) {
+export default async function TaskPage({ params, searchParams }: Props) {
   const { projectId, workspaceId } = await params;
 
   const filterOptions = {
     status: (await searchParams).status,
     priority: (await searchParams).priority,
     search: (await searchParams).search,
-    assigneeId: (await searchParams).assigneeId,
+    projectId: (await searchParams).projectId,
     startDate: (await searchParams).startDate,
   };
 
@@ -40,33 +37,24 @@ export default async function ProjectIdPage({ params, searchParams }: Props) {
       queryFn: () => findWorkspaceMembers(workspaceId),
     }),
     queryClient.prefetchQuery({
-      queryKey: ["project", { id: projectId }],
-      queryFn: () => findProjectById(projectId),
-    }),
-    queryClient.prefetchQuery({
       queryKey: ["workspace", { id: workspaceId }],
       queryFn: () => findWorkspaceById(workspaceId),
     }),
     queryClient.prefetchQuery({
-      queryKey: ["tasks", { projectId, filterOptions }],
-      queryFn: () => findTasksByProjectId(projectId, filterOptions),
+      queryKey: ["tasks", { workspaceId, filterOptions }],
     }),
     queryClient.prefetchQuery({
-      queryKey: ["project", "count", { id: projectId }],
-      queryFn: () => findTaskCountsByProjectId(projectId),
+      queryKey: ["workspace", "count", { id: workspaceId, userId }],
+      queryFn: () => findTaskCountsByWorkspaceId(workspaceId),
     }),
   ]);
   const state = dehydrate(queryClient);
+
   return (
     <div>
       <HydrationBoundary state={state}>
-        <ProjectSection workspaceId={workspaceId} projectId={projectId} />
-        <ProjectAnalyticSection projectId={projectId} />
-        <ProjectSwitcher
-          workspaceId={workspaceId}
-          projectId={projectId}
-          userId={userId}
-        />
+        <WorkspaceAnalyticSection workspaceId={workspaceId} />
+        <WorkspaceSwitcher workspaceId={workspaceId} userId={userId} />
       </HydrationBoundary>
     </div>
   );

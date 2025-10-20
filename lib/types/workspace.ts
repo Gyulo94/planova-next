@@ -1,4 +1,5 @@
 import { Session } from "next-auth";
+import { Project } from "./project";
 
 export type Workspace = {
   id: string;
@@ -7,4 +8,5 @@ export type Workspace = {
   owner: Session["user"];
   inviteCode: string;
   createdAt: Date;
+  projects: Project[];
 };
