@@ -37,7 +37,7 @@ export default function WorkspaceSwitcher() {
       </div>
       <Select onValueChange={onSelect} value={workspaceId}>
         <SelectTrigger
-          className="w-full bg-neutral-200 font-medium py-3 px-2 h-14"
+          className="w-full bg-accent font-medium py-3 px-2 h-14"
           suppressHydrationWarning
         >
           <SelectValue placeholder="워크스페이스 선택" className="truncate" />

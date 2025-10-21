@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import WorkspaceSwitcher from "@/components/task/table/switcher/workspace-switcher";
 import WorkspaceAnalyticSection from "@/components/workspace/workspace-analytic-section";
 import {
-  findTaskCountsByWorkspaceId,
+  findMyTaskCountsByWorkspaceId,
   findWorkspaceById,
   findWorkspaceMembers,
 } from "@/lib/actions";
@@ -45,7 +45,7 @@ export default async function TaskPage({ params, searchParams }: Props) {
     }),
     queryClient.prefetchQuery({
       queryKey: ["workspace", "count", { id: workspaceId, userId }],
-      queryFn: () => findTaskCountsByWorkspaceId(workspaceId),
+      queryFn: () => findMyTaskCountsByWorkspaceId(workspaceId),
     }),
   ]);
   const state = dehydrate(queryClient);

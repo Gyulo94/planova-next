@@ -50,7 +50,28 @@ export async function findTasksByProjectId(
   }
 }
 
-export async function findTasksByWorkspaceId(
+export async function findTasksByWorkspaceId(workspaceId?: string) {
+  const session = await auth();
+  const token = session?.serverTokens.accessToken;
+  try {
+    const response = await axios.get(
+      `${SERVER_URL}/task/workspace/${workspaceId}/all`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.body;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+  }
+}
+
+export async function findMyTasksByWorkspaceId(
   workspaceId?: string,
   filterOptions?: TaskFilterOptions
 ) {
@@ -58,7 +79,7 @@ export async function findTasksByWorkspaceId(
   const token = session?.serverTokens.accessToken;
   try {
     const response = await axios.get(
-      `${SERVER_URL}/task/workspace/${workspaceId}/all`,
+      `${SERVER_URL}/task/workspace/${workspaceId}/me`,
       {
         params: filterOptions,
         headers: {

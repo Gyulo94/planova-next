@@ -10,6 +10,7 @@ export {
 export {
   useCreateWorkspace,
   useDeleteWorkspace,
+  useFindMyTaskCountsByWorkspaceId,
   useFindTaskCountsByWorkspaceId,
   useFindWorkspace,
   useFindWorkspaceById,
@@ -37,6 +38,7 @@ export {
   useBulkUpdateTask,
   useCreateTask,
   useDeleteTask,
+  useFindMyTasksByWorkspaceId,
   useFindTaskById,
   useFindTasksByProjectId,
   useFindTasksByWorkspaceId,

@@ -57,7 +57,9 @@ export default async function AppSidebar({ workspaceId }: Props) {
             className="object-cover object-center"
           />
           <SidebarGroupLabel>
-            <h1 className="text-3xl font-bold dark:text-white">PLANOVA</h1>
+            <h1 className="text-3xl font-bold text-black dark:text-white">
+              PLANOVA
+            </h1>
           </SidebarGroupLabel>
         </div>
       </SidebarHeader>

@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { PriorityTypes, StatusTypes } from "@/lib/validations";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
-import { MouseEvent } from "react";
 import z from "zod/v3";
 
 interface Props {
@@ -36,12 +35,13 @@ export default function EventCard({
   priority,
 }: Props) {
   const priorityLabel = TaskPriority.find((s) => s.value === priority)?.label;
-  const { workspaceId, projectId } = useParameters();
+  const { workspaceId } = useParameters();
   const router = useRouter();
 
-  function onClick(e: MouseEvent<HTMLDivElement>) {
-    router.push(`/workspaces/${workspaceId}/projects/${projectId}/tasks/${id}`);
+  function onClick() {
+    router.push(`/workspaces/${workspaceId}/tasks/${id}`);
   }
+
   return (
     <div className="px-2">
       <div

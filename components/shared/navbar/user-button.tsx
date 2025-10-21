@@ -9,14 +9,12 @@ import {
 import { DottedSeparator } from "@/components/ui/separator";
 import UserAvatar from "@/components/user/user-avatar";
 import { DEFAULT_AVATAR } from "@/lib/constants";
-import { useLogout } from "@/lib/query";
 import { LogOutIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function UserButton() {
   const { data: session, status } = useSession();
-  const { mutate: logout } = useLogout();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -58,7 +56,7 @@ export default function UserButton() {
             <DottedSeparator className="mb-1" />
             <DropdownMenuItem
               className="h-10 flex items-center justify-center font-medium"
-              onClick={() => logout()}
+              onClick={() => signOut()}
             >
               <LogOutIcon className="size-4 mr-2" /> 로그아웃
             </DropdownMenuItem>

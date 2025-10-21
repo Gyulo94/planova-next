@@ -1,8 +1,7 @@
 "use server";
 
-import { auth, signIn } from "@/auth";
+import { signIn } from "@/auth";
 import axios from "axios";
-import { cookies } from "next/headers";
 import z from "zod/v3";
 import { SERVER_URL } from "../constants";
 import {
@@ -36,11 +35,11 @@ export async function signup(values: z.infer<typeof SignupFormSchema>) {
   });
 }
 
-export async function logout() {
-  const session = await auth();
-  if (!session) return;
-  await (await cookies()).delete(process.env.NEXTAUTH_SESSION_TOKEN_NAME!);
-}
+// export async function logout() {
+//   const session = await auth();
+//   if (!session) return;
+//   await (await cookies()).delete(process.env.NEXTAUTH_SESSION_TOKEN_NAME!);
+// }
 
 export async function sendEmail(email: string, type: "signup" | "reset") {
   const url =

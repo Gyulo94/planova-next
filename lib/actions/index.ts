@@ -10,6 +10,7 @@ export {
 export {
   createWorkspace,
   deleteWorkspace,
+  findMyTaskCountsByWorkspaceId,
   findTaskCountsByWorkspaceId,
   findWorkspaceById,
   findWorkspaces,
@@ -38,6 +39,7 @@ export {
   bulkUpdateTask,
   createTask,
   deleteTask,
+  findMyTasksByWorkspaceId,
   findTaskById,
   findTasksByProjectId,
   findTasksByWorkspaceId,

@@ -1,7 +1,7 @@
 "use client";
 
 import Analytics from "@/components/ui/analytics";
-import { useFindTaskCountsByWorkspaceId } from "@/lib/query";
+import { useFindMyTaskCountsByWorkspaceId } from "@/lib/query";
 import { TotalTaskCounts } from "@/lib/types";
 
 interface Props {
@@ -13,7 +13,7 @@ export default function WorkspaceAnalyticSection({
   workspaceId,
   userId,
 }: Props) {
-  const { data } = useFindTaskCountsByWorkspaceId(workspaceId, userId);
+  const { data } = useFindMyTaskCountsByWorkspaceId(workspaceId, userId);
   const taskCounts: TotalTaskCounts = data || {
     totalCount: 0,
     completedCount: 0,

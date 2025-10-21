@@ -24,6 +24,7 @@ export type Task = {
   status: z.infer<typeof StatusTypes>;
   assignee: Session["user"];
   project: Project;
+  createdAt: Date;
 };
 
 export type TaskCount = {
@@ -37,4 +38,8 @@ export type TotalTaskCounts = {
   incompleteCount: TaskCount;
   assignedCount: TaskCount;
   overdueCount: TaskCount;
+  inProgressCount?: TaskCount;
+  todoCount?: TaskCount;
+  inReviewCount?: TaskCount;
+  backlogCount?: TaskCount;
 };

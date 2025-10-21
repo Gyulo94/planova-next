@@ -5,6 +5,7 @@ import {
   bulkUpdateTask,
   createTask,
   deleteTask,
+  findMyTasksByWorkspaceId,
   findTaskById,
   findTasksByProjectId,
   findTasksByWorkspaceId,
@@ -28,7 +29,6 @@ export function useCreateTask(userId?: string) {
           { workspaceId: data.body.project.workspaceId, userId },
         ],
       });
-
       queryClient.invalidateQueries({
         queryKey: ["project", "count", { id: data.body.project.id }],
       });
@@ -61,14 +61,23 @@ export function useFindTasksByProjectId(
   return query;
 }
 
-export function useFindTasksByWorkspaceId(
+export function useFindTasksByWorkspaceId(workspaceId: string) {
+  const query = useQuery({
+    queryKey: ["tasks", { workspaceId }],
+    queryFn: () => findTasksByWorkspaceId(workspaceId),
+    enabled: !!workspaceId,
+  });
+  return query;
+}
+
+export function useFindMyTasksByWorkspaceId(
   workspaceId: string,
   userId?: string,
   filterOptions?: TaskFilterOptions
 ) {
   const query = useQuery({
     queryKey: ["tasks", { workspaceId, filterOptions, userId }],
-    queryFn: () => findTasksByWorkspaceId(workspaceId, filterOptions),
+    queryFn: () => findMyTasksByWorkspaceId(workspaceId, filterOptions),
     enabled: !!workspaceId && !!userId,
   });
   return query;

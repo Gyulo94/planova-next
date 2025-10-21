@@ -24,7 +24,7 @@ export default function ProjectSection({ projectId, workspaceId }: Props) {
           <p className="text-lg font-semibold">{project.name}</p>
         </div>
         <div>
-          <Button variant={"secondary"} size={"sm"} asChild>
+          <Button variant={"outline"} size={"sm"} asChild>
             <Link
               href={`/workspaces/${workspaceId}/projects/${projectId}/settings`}
             >

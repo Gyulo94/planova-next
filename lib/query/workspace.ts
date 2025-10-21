@@ -5,6 +5,7 @@ import z from "zod/v3";
 import {
   createWorkspace,
   deleteWorkspace,
+  findMyTaskCountsByWorkspaceId,
   findTaskCountsByWorkspaceId,
   findWorkspaceById,
   findWorkspaces,
@@ -108,10 +109,20 @@ export function useResetInviteCode() {
   return mutation;
 }
 
-export function useFindTaskCountsByWorkspaceId(id?: string, userId?: string) {
+export function useFindMyTaskCountsByWorkspaceId(id?: string, userId?: string) {
   const query = useQuery({
     enabled: !!id,
     queryKey: ["workspace", "count", { id, userId }],
+    queryFn: () => findMyTaskCountsByWorkspaceId(id),
+    retry: false,
+  });
+  return query;
+}
+
+export function useFindTaskCountsByWorkspaceId(id?: string) {
+  const query = useQuery({
+    enabled: !!id,
+    queryKey: ["workspace", "count", { id }],
     queryFn: () => findTaskCountsByWorkspaceId(id),
     retry: false,
   });

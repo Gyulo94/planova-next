@@ -44,7 +44,7 @@ export default function TaskViewSwitcher({
   const { data: workspaceMembers } = useFindWorkspaceMembers(workspaceId);
   const { data: workspace } = useFindWorkspaceById(workspaceId);
   const { setProjects } = useProjects();
-  const { setMembers, setIsAdmin, isAdmin } = useWorkspaceMembers();
+  const { setMembers, setIsAdmin } = useWorkspaceMembers();
 
   const { mutate: bulkUpdateTask } = useBulkUpdateTask(projectId);
 

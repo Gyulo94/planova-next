@@ -1,7 +1,7 @@
 "use client";
 
 import { useTaskFilters } from "@/lib/hooks/util";
-import { useFindTasksByWorkspaceId } from "@/lib/query";
+import { useFindMyTasksByWorkspaceId } from "@/lib/query";
 import { TaskFilterOptions } from "@/lib/types";
 import TaskViewSwitcher from "../../task-view-switcher";
 
@@ -22,7 +22,7 @@ export default function WorkspaceSwitcher({ workspaceId, userId }: Props) {
     startDate: startDate || undefined,
     dueDate: dueDate || undefined,
   };
-  const { data: tasks } = useFindTasksByWorkspaceId(
+  const { data: tasks } = useFindMyTasksByWorkspaceId(
     workspaceId,
     userId,
     filterOptions

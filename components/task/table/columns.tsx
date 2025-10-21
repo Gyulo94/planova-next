@@ -39,7 +39,7 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <div className="flex space-x-2 ">
           <Link
-            href={`/workspaces/${workspaceId}/projects/${projectId}/tasks/${id}`}
+            href={`/workspaces/${workspaceId}/tasks/${id}`}
             className="ml-4 min-w-[200px] w-full truncate font-medium block cursor-pointer underline-offset-3 hover:underline"
           >
             {name}

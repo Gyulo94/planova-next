@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   login,
-  logout,
   resetPassword,
   sendEmail,
   signup,
@@ -42,22 +41,21 @@ export function useSignup() {
   return mutation;
 }
 
-export function useLogout() {
-  const router = useRouter();
-  const mutation = useMutation({
-    mutationFn: logout,
-    onSuccess: (data) => {
-      toast.success(data.message);
-      router.push("/login");
-    },
-    onError: (error) => {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    },
-  });
-  return mutation;
-}
+// export function useLogout() {
+//   const router = useRouter();
+//   const mutation = useMutation({
+//     mutationFn: logout,
+//     onSuccess: (data) => {
+//       router.push("/login");
+//     },
+//     onError: (error) => {
+//       if (error instanceof Error) {
+//         toast.error(error.message);
+//       }
+//     },
+//   });
+//   return mutation;
+// }
 
 export function useVerifyToken(token: string) {
   const query = useQuery({
