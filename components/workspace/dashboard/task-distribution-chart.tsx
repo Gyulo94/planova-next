@@ -44,7 +44,7 @@ const chartConfig = {
 
 export default function TaskDistributionChart({ counts }: Props) {
   const data = [
-    { name: "완료", value: counts.totalCount.total, fill: "#22c55e" },
+    { name: "완료", value: counts.completedCount.total, fill: "#22c55e" },
     { name: "진행 중", value: counts.inProgressCount?.total, fill: "#f59e0b" },
     { name: "지연됨", value: counts.overdueCount.total, fill: "#ef4444" },
     { name: "백로그", value: counts.backlogCount?.total, fill: "#6b7280" },
