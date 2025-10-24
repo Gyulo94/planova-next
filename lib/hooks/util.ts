@@ -113,9 +113,9 @@ export function useTitleAndDescription() {
     return {
       title: "멤버",
     };
-  } else if (pathname.startsWith("/tasks")) {
+  } else if (pathname.includes("/tasks")) {
     return {
-      title: "내 작업",
+      title: "작업",
     };
   } else if (pathname.includes("/projects")) {
     return {

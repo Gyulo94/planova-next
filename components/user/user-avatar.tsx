@@ -6,9 +6,20 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 interface Props {
   name: string;
   url?: string;
-  size?: "sm" | "md" | "lg";
+  size?:
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "6xl"
+    | "7xl";
   className?: string;
   isTooltipEnabled?: boolean;
+  onClick?: () => void;
 }
 
 export default function UserAvatar({
@@ -17,6 +28,7 @@ export default function UserAvatar({
   size,
   className,
   isTooltipEnabled = true,
+  onClick,
 }: Props) {
   return (
     <Tooltip>
@@ -27,8 +39,16 @@ export default function UserAvatar({
             size === "sm" && "size-6",
             size === "md" && "size-8",
             size === "lg" && "size-10",
+            size === "xl" && "size-14",
+            size === "2xl" && "size-16",
+            size === "3xl" && "size-20",
+            size === "4xl" && "size-24",
+            size === "5xl" && "size-28",
+            size === "6xl" && "size-32",
+            size === "7xl" && "size-36",
             className
           )}
+          onClick={onClick}
         >
           <AvatarImage
             src={url || undefined}

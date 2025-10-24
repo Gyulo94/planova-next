@@ -1,6 +1,7 @@
 import CreateProjectDialog from "../project/create-project-dialog";
 import CreateTaskDialog from "../task/create-task-dialog";
 import UpdateTaskDialog from "../task/update-task-dialog";
+import UserProfileDialog from "../user/user-profile-dialog";
 import CreateWorkspaceDialog from "../workspace/create-workspace-dialog";
 
 export default function OpenProvider() {
@@ -10,6 +11,7 @@ export default function OpenProvider() {
       <CreateProjectDialog />
       <CreateTaskDialog />
       <UpdateTaskDialog />
+      <UserProfileDialog />
     </>
   );
 }

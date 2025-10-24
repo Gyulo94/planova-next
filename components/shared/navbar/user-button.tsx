@@ -9,7 +9,6 @@ import {
 import { DottedSeparator } from "@/components/ui/separator";
 import UserAvatar from "@/components/user/user-avatar";
 import { DEFAULT_AVATAR } from "@/lib/constants";
-import { LogOutIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -58,7 +57,13 @@ export default function UserButton() {
               className="h-10 flex items-center justify-center font-medium"
               onClick={() => signOut()}
             >
-              <LogOutIcon className="size-4 mr-2" /> 로그아웃
+              내 정보
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="h-10 flex items-center justify-center font-medium text-destructive hover:!text-destructive/80"
+              onClick={() => signOut()}
+            >
+              로그아웃
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

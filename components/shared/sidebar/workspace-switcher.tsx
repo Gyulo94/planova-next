@@ -1,5 +1,6 @@
 "use client";
 
+import ProjectAvatar from "@/components/project/project-avatar";
 import {
   Select,
   SelectContent,
@@ -7,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import WorkspaceAvatar from "@/components/workspace/workspace-avatar";
 import { useParameters } from "@/lib/hooks/util";
 import { useFindWorkspace } from "@/lib/query";
 import { useOpenWorkspaceDialogStore } from "@/lib/stores";
@@ -50,9 +50,9 @@ export default function WorkspaceSwitcher() {
               className="px-2"
             >
               <div className="flex justify-start items-center gap-2 font-medium w-full min-w-0">
-                <WorkspaceAvatar
+                <ProjectAvatar
                   name={workspace.name}
-                  image={workspace.image}
+                  url={workspace.image}
                   className="shrink-0"
                 />
                 <span className="truncate text-sm">{workspace.name}</span>

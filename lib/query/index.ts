@@ -1,6 +1,5 @@
 export {
   useLogin,
-  useLogout,
   useResetPassword,
   useSendMail,
   useSignup,
@@ -44,3 +43,5 @@ export {
   useFindTasksByWorkspaceId,
   useUpdateTask,
 } from "./task";
+
+export { useFindUserById } from "./user";

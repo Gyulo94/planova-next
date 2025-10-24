@@ -1,11 +1,4 @@
-export {
-  login,
-  logout,
-  resetPassword,
-  sendEmail,
-  signup,
-  verifyToken,
-} from "./auth";
+export { login, resetPassword, sendEmail, signup, verifyToken } from "./auth";
 
 export {
   createWorkspace,
@@ -45,5 +38,7 @@ export {
   findTasksByWorkspaceId,
   updateTask,
 } from "./task";
+
+export { findUserById } from "./user";
 
 export { imageUpload } from "./file";

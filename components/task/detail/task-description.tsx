@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useUpdateTask } from "@/lib/query";
 import { Task } from "@/lib/types";
 import { PencilIcon, XIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 interface Props {
@@ -15,6 +16,8 @@ export default function TeskDescription({ task }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [value, setValue] = useState(task.description);
+  const { data: session } = useSession();
+  const userId = session?.user.id;
 
   const { mutate: updateTask } = useUpdateTask(task.project.id, task.id);
 
@@ -49,18 +52,20 @@ export default function TeskDescription({ task }: Props) {
     <div className="p-4 rounded-lg bg-background">
       <div className="flex items-center justify-between">
         <p className="text-lg font-semibold">상세내용</p>
-        <Button
-          size={"sm"}
-          variant={"secondary"}
-          onClick={() => setIsEditing((prev) => !prev)}
-        >
-          {isEditing ? (
-            <XIcon className="size-4 mr-2" />
-          ) : (
-            <PencilIcon className="size-4 mr-2" />
-          )}{" "}
-          {isEditing ? "취소" : "편집"}
-        </Button>
+        {userId === task.assignee.id && (
+          <Button
+            size={"sm"}
+            variant={"secondary"}
+            onClick={() => setIsEditing((prev) => !prev)}
+          >
+            {isEditing ? (
+              <XIcon className="size-4 mr-2" />
+            ) : (
+              <PencilIcon className="size-4 mr-2" />
+            )}{" "}
+            {isEditing ? "취소" : "편집"}
+          </Button>
+        )}
       </div>
       <DottedSeparator className="my-4" />
       {isEditing ? (

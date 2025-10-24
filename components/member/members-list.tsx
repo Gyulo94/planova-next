@@ -9,6 +9,7 @@ import {
   useRemoveWorkspaceMember,
 } from "@/lib/query";
 import { useUpdateWorkspaceMember } from "@/lib/query/workspace-member";
+import { useOpenUserDialogStore } from "@/lib/stores";
 import { WorkspaceMember } from "@/lib/types";
 import { MoreVerticalIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -46,6 +47,7 @@ export default function MembersList({ workspaceId }: Props) {
   const { data: workspace } = useFindWorkspaceById(workspaceId);
   const { mutate: removeMember } = useRemoveWorkspaceMember(workspaceId);
   const { mutate: updateMember } = useUpdateWorkspaceMember(workspaceId);
+  const { onOpen: openUserDialog } = useOpenUserDialogStore();
   const [ConfirmDialog, confirm] = useConfirm(
     "정말로 멤버를 추방하시겠습니까?",
     "추방된 멤버는 워크스페이스에 다시 접근할 수 없습니다."
@@ -84,6 +86,7 @@ export default function MembersList({ workspaceId }: Props) {
                   name={member.name}
                   size="lg"
                   className="cursor-pointer"
+                  onClick={() => openUserDialog(member.id)}
                 />
                 <div className="flex flex-col">
                   <p className="text-sm font-medium">

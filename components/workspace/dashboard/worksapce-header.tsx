@@ -2,6 +2,7 @@ import ProjectAvatar from "@/components/project/project-avatar";
 import { Card } from "@/components/ui/card";
 import UserAvatar from "@/components/user/user-avatar";
 import { useFindWorkspaceMembers } from "@/lib/query";
+import { useOpenUserDialogStore } from "@/lib/stores";
 import { Workspace, WorkspaceMember } from "@/lib/types";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 
 export default function WorkspaceHeader({ workspace }: Props) {
   const { data: workspaceMembers } = useFindWorkspaceMembers(workspace.id);
+  const { onOpen: opnUserDialog } = useOpenUserDialogStore();
   const members: WorkspaceMember[] = workspaceMembers.members;
   return (
     <div className="space-y-4">
@@ -28,7 +30,8 @@ export default function WorkspaceHeader({ workspace }: Props) {
                 key={member.id}
                 name={member.name}
                 url={member.image}
-                className="size-9 2xl:size-10 border-2 border-background shadow"
+                className="size-9 2xl:size-10 border-2 border-background shadow cursor-pointer"
+                onClick={() => opnUserDialog(member.id)}
               />
             ))}
           </div>

@@ -6,7 +6,11 @@ import { DottedSeparator } from "@/components/ui/separator";
 import UserAvatar from "@/components/user/user-avatar";
 import { TaskPriority, TaskStatus } from "@/lib/constants";
 import { useFindWorkspaceMembers } from "@/lib/query";
-import { useEditTaskDialogStore, useWorkspaceMembers } from "@/lib/stores";
+import {
+  useEditTaskDialogStore,
+  useOpenUserDialogStore,
+  useWorkspaceMembers,
+} from "@/lib/stores";
 import { Task } from "@/lib/types";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -24,6 +28,7 @@ export default function TaskOverview({ task, workspaceId }: Props) {
   const { onOpen } = useEditTaskDialogStore();
   const { data: workspaceMembers } = useFindWorkspaceMembers(workspaceId);
   const { setMembers, setIsAdmin } = useWorkspaceMembers();
+  const { onOpen: openUserDialog } = useOpenUserDialogStore();
   const { data: session } = useSession();
   const userId = session?.user.id;
   const statusLabel = TaskStatus.find((s) => s.value === task.status)?.label;
@@ -35,23 +40,30 @@ export default function TaskOverview({ task, workspaceId }: Props) {
       <div className="bg-background rounded-lg p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">오버뷰</p>
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={() => {
-              setMembers(workspaceMembers.members || []);
-              setIsAdmin(userId!);
-              onOpen(task.id, task.project.id);
-            }}
-          >
-            <PencilIcon className="size-4 mr-2" />
-            수정
-          </Button>
+          {userId === task.assignee.id && (
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => {
+                setMembers(workspaceMembers.members || []);
+                setIsAdmin(userId!);
+                onOpen(task.id, task.project.id);
+              }}
+            >
+              <PencilIcon className="size-4 mr-2" />
+              수정
+            </Button>
+          )}
         </div>
         <DottedSeparator className="my-4" />
         <div className="flex flex-col gap-y-4">
           <OverviewProperty label="담당자">
-            <UserAvatar name={task.assignee.name} url={task.assignee.image} />
+            <UserAvatar
+              name={task.assignee.name}
+              url={task.assignee.image}
+              className="cursor-pointer"
+              onClick={() => openUserDialog(task.assignee.id)}
+            />
             <p className="text-sm font-medium">{task.assignee.name}</p>
           </OverviewProperty>
           <OverviewProperty label="시작일">

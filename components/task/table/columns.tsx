@@ -4,6 +4,7 @@ import ProjectAvatar from "@/components/project/project-avatar";
 import { TaskPriority, TaskStatus } from "@/lib/constants";
 import { useParameters } from "@/lib/hooks/util";
 import { useFindMyWorkspaceMemberInfo } from "@/lib/query";
+import { useOpenUserDialogStore } from "@/lib/stores";
 import { Task } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -144,11 +145,14 @@ export const columns: ColumnDef<Task>[] = [
     },
     cell: ({ row }) => {
       const assignee = row.original.assignee;
+      const { onOpen: openUserDialog } = useOpenUserDialogStore();
       return (
         <div className="flex items-center justify-center gap-x-2 text-sm font-medium">
           <UserAvatar
             name={assignee.name}
             url={assignee.image}
+            className="cursor-pointer"
+            onClick={() => openUserDialog(assignee.id)}
             isTooltipEnabled={false}
           />
           <p className="line-clamp-1">{assignee.name}</p>
