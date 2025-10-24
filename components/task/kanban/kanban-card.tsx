@@ -2,6 +2,7 @@ import { TaskPriority } from "@/lib/constants";
 import { Task } from "@/lib/types";
 import { format } from "date-fns";
 import { MoreHorizontalIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import ProjectAvatar from "../../project/project-avatar";
 import { Badge } from "../../ui/badge";
 import { DottedSeparator } from "../../ui/separator";
@@ -14,6 +15,15 @@ interface Props {
 }
 
 export default function KanbanCard({ task }: Props) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
   const priorityLabel = TaskPriority.find(
     (s) => s.value === task.priority
   )?.label;

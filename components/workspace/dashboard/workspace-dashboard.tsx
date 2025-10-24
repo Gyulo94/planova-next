@@ -106,7 +106,44 @@ export default function WorkspaceDasahboard({ workspaceId, userId }: Props) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <TaskDistributionChart counts={workspaceCounts} />
+
         <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">
+              프로젝트 ({projects.length})
+            </h3>
+            <Button
+              size={"icon"}
+              onClick={() => openProjectDialog(workspaceId)}
+            >
+              <PlusIcon className="suze-4" />
+            </Button>
+          </div>
+          <DottedSeparator />
+          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {projects.slice(0, 10).map((project: Project) => (
+              <li key={project.id}>
+                <Link
+                  href={`/workspaces/${workspaceId}/projects/${project.id}`}
+                >
+                  <Card className="shadow-none rounded-lg hover:opacity-75 transition py-0 hover:bg-accent">
+                    <CardContent className="p-4 flex items-center gap-x-2.5">
+                      <ProjectAvatar name={project.name} url={project.image} />
+                      <p className="text-lg font-medium truncate">
+                        {project.name}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </li>
+            ))}
+            <li className="col-span-2 text-sm text-muted-foreground text-center hidden first-of-type:block">
+              프로젝트가 없습니다.
+            </li>
+          </ul>
+        </Card>
+
+        <Card className="p-4 md:col-span-2 lg:col-span-1">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold">
               최근 작업 ({tasks.length})
@@ -153,42 +190,6 @@ export default function WorkspaceDasahboard({ workspaceId, userId }: Props) {
               <Link href={`/workspaces/${workspaceId}/tasks`}>더 보기</Link>
             </Button>
           )}
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">
-              프로젝트 ({projects.length})
-            </h3>
-            <Button
-              size={"icon"}
-              onClick={() => openProjectDialog(workspaceId)}
-            >
-              <PlusIcon className="suze-4" />
-            </Button>
-          </div>
-          <DottedSeparator />
-          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {projects.slice(0, 10).map((project: Project) => (
-              <li key={project.id}>
-                <Link
-                  href={`/workspaces/${workspaceId}/projects/${project.id}`}
-                >
-                  <Card className="shadow-none rounded-lg hover:opacity-75 transition py-0 hover:bg-accent">
-                    <CardContent className="p-4 flex items-center gap-x-2.5">
-                      <ProjectAvatar name={project.name} url={project.image} />
-                      <p className="text-lg font-medium truncate">
-                        {project.name}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </li>
-            ))}
-            <li className="col-span-2 text-sm text-muted-foreground text-center hidden first-of-type:block">
-              프로젝트가 없습니다.
-            </li>
-          </ul>
         </Card>
       </div>
     </div>

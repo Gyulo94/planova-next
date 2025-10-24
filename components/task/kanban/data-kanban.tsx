@@ -151,7 +151,7 @@ export default function DataKanban({ data, onChange }: Props) {
             >
               <KanbanColumnHeader
                 status={status}
-                taskCount={tasks[status.value].length}
+                taskCount={tasks[status.value]?.length}
               />
               <Droppable droppableId={status.value}>
                 {(provided) => (
@@ -160,7 +160,7 @@ export default function DataKanban({ data, onChange }: Props) {
                     ref={provided.innerRef}
                     className="min-h-[200px] py-1.5"
                   >
-                    {tasks[status.value].map((task, index) => (
+                    {tasks[status.value]?.map((task, index) => (
                       <Draggable
                         key={task.id}
                         draggableId={task.id}
