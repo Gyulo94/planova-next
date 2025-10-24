@@ -67,7 +67,7 @@ export function useImageUpload({
           }
 
           setImages(newImages);
-          onSuccess?.(newImages); // uploadedUrls 대신 newImages 전달
+          onSuccess?.(newImages);
         }
       } catch (error) {
         toast.error("이미지 업로드에 실패했습니다.");
@@ -112,6 +112,10 @@ export function useTitleAndDescription() {
   } else if (pathname.includes("/members")) {
     return {
       title: "멤버",
+    };
+  } else if (pathname.startsWith("/tasks")) {
+    return {
+      title: "내 작업",
     };
   } else if (pathname.includes("/projects")) {
     return {

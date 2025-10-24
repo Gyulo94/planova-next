@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import z from "zod/v3";
 import {
@@ -135,6 +136,8 @@ export function useUpdateTask(
 
 export function useBulkUpdateTask(projectId?: string) {
   const queryClient = useQueryClient();
+  const { data: session } = useSession();
+  const userId = session?.user.id;
   const mutation = useMutation({
     mutationFn: (
       values: {
@@ -143,10 +146,12 @@ export function useBulkUpdateTask(projectId?: string) {
         position: number;
       }[]
     ) => bulkUpdateTask(values),
-    onSuccess: (data) => {
-      toast.success(data.message);
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["tasks", { projectId }],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", { projectId, userId }],
       });
       queryClient.invalidateQueries({
         queryKey: ["project", "count", { id: projectId }],

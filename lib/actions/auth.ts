@@ -3,6 +3,7 @@
 import { signIn } from "@/auth";
 import axios from "axios";
 import z from "zod/v3";
+import { createWorkspace } from ".";
 import { SERVER_URL } from "../constants";
 import {
   LoginFormSchema,
@@ -28,11 +29,9 @@ export async function signup(values: z.infer<typeof SignupFormSchema>) {
     password,
   });
 
-  await signIn("credentials", {
-    email,
-    password,
-    redirect: false,
-  });
+  await createWorkspace({ name: `${name}의 워크스페이스` });
+
+  await login({ email, password });
 }
 
 // export async function logout() {

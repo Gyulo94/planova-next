@@ -9,6 +9,7 @@ import {
 } from "@/lib/actions";
 import { getQueryClient } from "@/lib/query/provider/get-query-client";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { Session } from "next-auth";
 
 interface Props {
   params: Promise<{
@@ -20,10 +21,18 @@ export default async function WorkspaceIdPage({ params }: Props) {
   const { workspaceId } = await params;
   const session = await auth();
   const userId = session?.user.id;
-  const take = 3;
+
+  const workspaceMembers = await findWorkspaceMembers(workspaceId);
+  const isMember = workspaceMembers.members.some((member: Session["user"]) => {
+    return member.id === userId;
+  });
+  if (!isMember) {
+    console.log("워크스페이스 멤버 아님");
+
+    return <div className="flex flex-col gap-6 pb-3 px-3">멤버가 아님</div>;
+  }
 
   const queryClient = getQueryClient();
-
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: ["workspace", "count", { id: workspaceId }],

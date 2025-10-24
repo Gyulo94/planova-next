@@ -153,17 +153,6 @@ export const config = {
       return session;
     },
   },
-  events: {
-    async signOut({ token }: any) {
-      try {
-        await axios.post(`${SERVER_URL}/auth/logout`, {
-          userId: token.user.id,
-        });
-      } catch (error) {
-        console.error("Logout error:", error);
-      }
-    },
-  },
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);

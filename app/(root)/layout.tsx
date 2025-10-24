@@ -19,7 +19,7 @@ export default async function RootLayout({
           <div className="flex items-center sticky top-0 z-40">
             <Navbar />
           </div>
-          <div className="p-0 md:p-4 pt-2 min-h-[calc(100vh-64px)]">
+          <div className="p-0 md:p-4 pt-2 min-h-[calc(100vh-64px)] xl: max-w-[1920px] mx-auto">
             {children}
           </div>
         </main>
