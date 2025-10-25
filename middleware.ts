@@ -5,7 +5,7 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
   const session = !!req.auth;
 
-  const protectedPaths = [/\/user/, /\/workspaces\/.+/];
+  const protectedPaths = [/\/profile/, /\/workspaces\/.+/];
 
   if (!session && protectedPaths.some((p) => p.test(pathname))) {
     return NextResponse.redirect(new URL("/login", req.url));
