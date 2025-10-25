@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "gyubuntu.duckdns.org",
       },
+      {
+        protocol: "http",
+        hostname: "k.kakaocdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
 };
