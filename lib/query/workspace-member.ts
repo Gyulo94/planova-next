@@ -54,13 +54,12 @@ export function useFindMyWorkspaceMemberInfo(
 export function useRemoveWorkspaceMember(workspaceId?: string) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (memberId: string) =>
-      removeWorkspaceMember(workspaceId, memberId),
-    onSuccess: (data, memberId) => {
+    mutationFn: (userId: string) => removeWorkspaceMember(workspaceId, userId),
+    onSuccess: (data, userId) => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["workspace-members"] });
       queryClient.invalidateQueries({
-        queryKey: ["workspace-member", { memberId }],
+        queryKey: ["workspace-member", { userId }],
       });
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({
@@ -79,13 +78,12 @@ export function useRemoveWorkspaceMember(workspaceId?: string) {
 export function useUpdateWorkspaceMember(workspaceId?: string) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (memberId: string) =>
-      updateWorkspaceMember(workspaceId, memberId),
-    onSuccess: (data, memberId) => {
+    mutationFn: (userId: string) => updateWorkspaceMember(workspaceId, userId),
+    onSuccess: (data, userId) => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["workspace-members"] });
       queryClient.invalidateQueries({
-        queryKey: ["workspace-member", { memberId }],
+        queryKey: ["workspace-member", { userId }],
       });
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({

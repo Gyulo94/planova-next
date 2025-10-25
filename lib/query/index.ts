@@ -44,4 +44,9 @@ export {
   useUpdateTask,
 } from "./task";
 
-export { useFindUserById } from "./user";
+export {
+  useDeleteUser,
+  useFindUserById,
+  useUpdateUser,
+  useUpdateUserPassword,
+} from "./user";

@@ -39,6 +39,11 @@ export {
   updateTask,
 } from "./task";
 
-export { findUserById } from "./user";
+export {
+  deleteUser,
+  findUserById,
+  updateUser,
+  updateUserPassword,
+} from "./user";
 
 export { imageUpload } from "./file";

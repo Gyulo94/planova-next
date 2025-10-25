@@ -10,18 +10,20 @@ import { DottedSeparator } from "@/components/ui/separator";
 import UserAvatar from "@/components/user/user-avatar";
 import { DEFAULT_AVATAR } from "@/lib/constants";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function UserButton() {
   const { data: session, status } = useSession();
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) {
-    return null;
+    return <UserAvatar name="" />;
   }
   return (
     <>
@@ -55,7 +57,7 @@ export default function UserButton() {
             <DottedSeparator className="mb-1" />
             <DropdownMenuItem
               className="h-10 flex items-center justify-center font-medium"
-              onClick={() => signOut()}
+              onClick={() => router.replace("/profile")}
             >
               내 정보
             </DropdownMenuItem>

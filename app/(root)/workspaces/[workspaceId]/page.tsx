@@ -8,8 +8,41 @@ import {
   findWorkspaceMembers,
 } from "@/lib/actions";
 import { getQueryClient } from "@/lib/query/provider/get-query-client";
+import { Workspace } from "@/lib/types";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { Session } from "next-auth";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { workspaceId: string };
+}): Promise<Metadata> {
+  const { workspaceId } = params;
+  const workspace: Workspace = await findWorkspaceById(workspaceId);
+  return {
+    title: `${workspace.name}`,
+    description: workspace.owner.name + "님의 워크스페이스",
+    openGraph: {
+      title: workspace.name,
+      description: workspace.owner.name + "님의 워크스페이스",
+      url: `https://planova.vercel.app/workspaces/${workspaceId}`,
+      images: [
+        {
+          url: workspace.image!,
+          width: 1200,
+          height: 630,
+          alt: workspace.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: workspace.name,
+      description: workspace.owner.name + "님의 워크스페이스",
+      images: `https://planova.vercel.app/workspaces/${workspaceId}`,
+    },
+  };
+}
 
 interface Props {
   params: Promise<{
@@ -21,16 +54,6 @@ export default async function WorkspaceIdPage({ params }: Props) {
   const { workspaceId } = await params;
   const session = await auth();
   const userId = session?.user.id;
-
-  const workspaceMembers = await findWorkspaceMembers(workspaceId);
-  const isMember = workspaceMembers.members.some((member: Session["user"]) => {
-    return member.id === userId;
-  });
-  if (!isMember) {
-    console.log("워크스페이스 멤버 아님");
-
-    return <div className="flex flex-col gap-6 pb-3 px-3">멤버가 아님</div>;
-  }
 
   const queryClient = getQueryClient();
   await Promise.all([
