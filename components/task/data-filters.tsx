@@ -1,6 +1,6 @@
 "use client";
 
-import { TaskPriority, TaskStatus } from "@/lib/constants";
+import { DEFAULT_AVATAR, TaskPriority, TaskStatus } from "@/lib/constants";
 import { debounce, useTaskFilters } from "@/lib/hooks/util";
 import { useFindWorkspaceById, useFindWorkspaceMembers } from "@/lib/query";
 import { Project, WorkspaceMember } from "@/lib/types";
@@ -190,7 +190,7 @@ export default function DataFilters({ workspaceId, type }: Props) {
                   <div className="flex items-center gap-2">
                     <UserAvatar
                       name={member.name}
-                      url={member.image}
+                      url={member.image || DEFAULT_AVATAR}
                       className="size-6"
                     />
                     <span>{member.name}</span>

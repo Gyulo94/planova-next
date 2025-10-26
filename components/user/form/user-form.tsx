@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/ui/loader";
+import { DEFAULT_AVATAR } from "@/lib/constants";
 import { useImageUpload } from "@/lib/hooks/util";
 import { UserFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,7 +74,7 @@ export default function UserForm({
               {field.value ? (
                 <div className="w-full h-[150px] flex justify-center relative rounded-full overflow-hidden">
                   <UserAvatar
-                    url={field.value}
+                    url={field.value || DEFAULT_AVATAR}
                     size="7xl"
                     isTooltipEnabled={false}
                     className="cursor-pointer hover:opacity-75 transition-opacity"

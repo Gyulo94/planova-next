@@ -1,6 +1,7 @@
 import ProjectAvatar from "@/components/project/project-avatar";
 import { Card } from "@/components/ui/card";
 import UserAvatar from "@/components/user/user-avatar";
+import { DEFAULT_AVATAR } from "@/lib/constants";
 import { useFindWorkspaceMembers } from "@/lib/query";
 import { useOpenUserDialogStore } from "@/lib/stores";
 import { Workspace, WorkspaceMember } from "@/lib/types";
@@ -29,7 +30,7 @@ export default function WorkspaceHeader({ workspace }: Props) {
               <UserAvatar
                 key={member.id}
                 name={member.name}
-                url={member.image}
+                url={member.image || DEFAULT_AVATAR}
                 className="size-9 2xl:size-10 border-2 border-background shadow cursor-pointer"
                 onClick={() => opnUserDialog(member.id)}
               />

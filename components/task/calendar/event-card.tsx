@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import UserAvatar from "@/components/user/user-avatar";
-import { TaskPriority, TaskStatus } from "@/lib/constants";
+import { DEFAULT_AVATAR, TaskPriority, TaskStatus } from "@/lib/constants";
 import { useParameters } from "@/lib/hooks/util";
 import { cn } from "@/lib/utils";
 import { PriorityTypes, StatusTypes } from "@/lib/validations";
@@ -51,7 +51,11 @@ export default function EventCard({
       >
         <p>{title}</p>
         <div className="flex items-center justify-between">
-          <UserAvatar name={assignee.name} url={assignee.image} size="sm" />
+          <UserAvatar
+            name={assignee.name}
+            url={assignee.image || DEFAULT_AVATAR}
+            size="sm"
+          />
           <div className="size-1 rounded-full bg-neutral-300" />
           <Badge variant={priority}>{priorityLabel}</Badge>
         </div>

@@ -1,4 +1,4 @@
-import { TaskPriority } from "@/lib/constants";
+import { DEFAULT_AVATAR, TaskPriority } from "@/lib/constants";
 import { Task } from "@/lib/types";
 import { format } from "date-fns";
 import { MoreHorizontalIcon } from "lucide-react";
@@ -57,7 +57,7 @@ export default function KanbanCard({ task }: Props) {
         </div>
         <UserAvatar
           name={task.assignee.name}
-          url={task.assignee.image}
+          url={task.assignee.image || DEFAULT_AVATAR}
           size="sm"
         />
       </div>

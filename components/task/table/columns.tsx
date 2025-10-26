@@ -1,7 +1,7 @@
 "use client";
 
 import ProjectAvatar from "@/components/project/project-avatar";
-import { TaskPriority, TaskStatus } from "@/lib/constants";
+import { DEFAULT_AVATAR, TaskPriority, TaskStatus } from "@/lib/constants";
 import { useParameters } from "@/lib/hooks/util";
 import { useFindMyWorkspaceMemberInfo } from "@/lib/query";
 import { useOpenUserDialogStore } from "@/lib/stores";
@@ -41,7 +41,7 @@ const AssigneeCell = ({ row }: { row: { original: Task } }) => {
     <div className="flex items-center justify-center gap-x-2 text-sm font-medium">
       <UserAvatar
         name={assignee.name}
-        url={assignee.image}
+        url={assignee.image || DEFAULT_AVATAR}
         className="cursor-pointer"
         onClick={() => openUserDialog(assignee.id)}
         isTooltipEnabled={false}

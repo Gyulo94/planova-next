@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import UserAvatar from "@/components/user/user-avatar";
-import { TaskPriority, TaskStatus } from "@/lib/constants";
+import { DEFAULT_AVATAR, TaskPriority, TaskStatus } from "@/lib/constants";
 import {
   useOpenTaskDialogStore,
   useProjects,
@@ -118,7 +118,7 @@ export default function TaskForm({
                         <div className="flex items-center gap-2">
                           <UserAvatar
                             name={member.name}
-                            url={member.image}
+                            url={member.image || DEFAULT_AVATAR}
                             className="size-6"
                           />
                           <span>{member.name}</span>

@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/separator";
 import UserAvatar from "@/components/user/user-avatar";
-import { TaskPriority, TaskStatus } from "@/lib/constants";
+import { DEFAULT_AVATAR, TaskPriority, TaskStatus } from "@/lib/constants";
 import { useFindWorkspaceMembers } from "@/lib/query";
 import {
   useEditTaskDialogStore,
@@ -60,7 +60,7 @@ export default function TaskOverview({ task, workspaceId }: Props) {
           <OverviewProperty label="담당자">
             <UserAvatar
               name={task.assignee.name}
-              url={task.assignee.image}
+              url={task.assignee.image || DEFAULT_AVATAR}
               className="cursor-pointer"
               onClick={() => openUserDialog(task.assignee.id)}
             />

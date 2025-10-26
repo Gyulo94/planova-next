@@ -1,3 +1,4 @@
+import { DEFAULT_AVATAR } from "@/lib/constants";
 import { Session } from "next-auth";
 import { Button } from "../ui/button";
 import UserAvatar from "./user-avatar";
@@ -13,7 +14,7 @@ export default function UserProfile({ user, onClose }: Props) {
       <div className="w-full flex items-center justify-center">
         <UserAvatar
           name={user?.name}
-          url={user.image}
+          url={user.image || DEFAULT_AVATAR}
           isTooltipEnabled={false}
           size="7xl"
         />
