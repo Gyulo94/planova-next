@@ -44,7 +44,7 @@ export default function TaskActions({
 
   async function onUpdate() {
     setMembers(workspaceMembers.members || []);
-    setIsAdmin(session?.user.id!);
+    setIsAdmin(session?.user.id || "");
     onOpen(id, projectId);
   }
 
