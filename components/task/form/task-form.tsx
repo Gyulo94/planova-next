@@ -45,14 +45,12 @@ import z from "zod/v3";
 interface Props {
   defaultValues?: z.infer<typeof TaskFormSchema>;
   onSubmit: (values: z.infer<typeof TaskFormSchema>) => void;
-  onClose?: () => void;
   isDisabled?: boolean;
 }
 
 export default function TaskForm({
   defaultValues,
   onSubmit,
-  onClose,
   isDisabled,
 }: Props) {
   const { projects } = useProjects();

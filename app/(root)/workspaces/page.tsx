@@ -32,7 +32,7 @@ export default function WorkspacePage() {
       }
     };
     verification();
-  }, []);
+  }, [router]);
 
   function onSubmit(values: z.infer<typeof WorkspaceFormSchema>) {
     console.log(values);
