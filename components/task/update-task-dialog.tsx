@@ -59,7 +59,6 @@ export default function UpdateTaskDialog() {
         <TaskForm
           onSubmit={onSubmit}
           defaultValues={defaultValues}
-          onClose={onClose}
           isDisabled={isDisabled}
         />
       </DialogContent>
