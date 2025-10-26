@@ -32,7 +32,7 @@ export default function UserButton() {
           <DropdownMenuTrigger>
             <UserAvatar
               url={session?.user.image || DEFAULT_AVATAR}
-              name={session?.user.name!}
+              name={session?.user.name}
               isTooltipEnabled={false}
               className="cursor-pointer"
             />
@@ -41,7 +41,7 @@ export default function UserButton() {
             <div className="flex flex-col items-center justify-center gap-2 px-2.5 py-4">
               <UserAvatar
                 url={session?.user.image || DEFAULT_AVATAR}
-                name={session?.user.name!}
+                name={session?.user.name}
                 isTooltipEnabled={false}
                 className="size-14 border border-neutral-300"
               />

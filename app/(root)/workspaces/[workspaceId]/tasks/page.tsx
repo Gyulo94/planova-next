@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default async function TaskPage({ params, searchParams }: Props) {
-  const { projectId, workspaceId } = await params;
+  const { workspaceId } = await params;
 
   const filterOptions = {
     status: (await searchParams).status,
