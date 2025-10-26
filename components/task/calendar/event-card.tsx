@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import UserAvatar from "@/components/user/user-avatar";
 import { TaskPriority, TaskStatus } from "@/lib/constants";
 import { useParameters } from "@/lib/hooks/util";
-import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { PriorityTypes, StatusTypes } from "@/lib/validations";
 import { Session } from "next-auth";
@@ -15,7 +14,6 @@ interface Props {
   assignee: Session["user"];
   status: z.infer<typeof StatusTypes>;
   priority: z.infer<typeof PriorityTypes>;
-  project: Project;
 }
 
 const statusColorMap: Record<z.infer<typeof StatusTypes>, string> = {
@@ -31,7 +29,6 @@ export default function EventCard({
   title,
   assignee,
   status,
-  project,
   priority,
 }: Props) {
   const priorityLabel = TaskPriority.find((s) => s.value === priority)?.label;

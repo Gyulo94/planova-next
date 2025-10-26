@@ -68,7 +68,7 @@ export default function TaskViewSwitcher({
       // console.log(tasks);
       bulkUpdateTask(tasks);
     },
-    []
+    [bulkUpdateTask]
   );
 
   return (

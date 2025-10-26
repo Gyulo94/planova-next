@@ -22,7 +22,7 @@ import { ko } from "date-fns/locale";
 import { CalendarIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent } from "../../ui/card";
 import CircleProgress from "../../ui/circle-process";
 import TaskDistributionChart from "./task-distribution-chart";
@@ -51,14 +51,19 @@ export default function WorkspaceDasahboard({ workspaceId, userId }: Props) {
     overdueCount: { total: 0 },
   };
 
-  const projectsList = projects ?? [];
-  const tasksList = tasks ?? [];
-  const workspaceMembersList = workspaceMembers?.members ?? [];
+  const projectsList = useMemo(() => projects ?? [], [projects]);
+  const tasksList = useMemo(() => tasks ?? [], [tasks]);
+  const workspaceMembersList = useMemo(
+    () => workspaceMembers?.members ?? [],
+    [workspaceMembers?.members]
+  );
 
   useEffect(() => {
     setMembers(workspaceMembersList);
     setIsAdmin(userId ?? "");
   }, [workspaceMembersList, userId, setMembers, setIsAdmin]);
+
+  if (!workspace) return notFound();
 
   if (!workspace) return notFound();
 

@@ -80,7 +80,6 @@ export default function DataCalendar({ data }: Props) {
             id={event.id}
             title={event.title}
             assignee={event.assignee}
-            project={event.project}
             status={event.status}
             priority={event.priority}
           />

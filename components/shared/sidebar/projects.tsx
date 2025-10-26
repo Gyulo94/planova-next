@@ -14,39 +14,10 @@ import {
 } from "@/lib/query";
 import { useOpenProjectDialogStore } from "@/lib/stores";
 import { Project } from "@/lib/types";
-import {
-  CheckCircleIcon,
-  HomeIcon,
-  SettingsIcon,
-  UsersIcon,
-} from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RiAddCircleFill } from "react-icons/ri";
-
-const projects = [
-  {
-    label: "홈",
-    href: "",
-    icon: HomeIcon,
-  },
-  {
-    label: "내 작업",
-    href: "tasks",
-    icon: CheckCircleIcon,
-  },
-  {
-    label: "세팅",
-    href: "settings",
-    icon: SettingsIcon,
-  },
-  {
-    label: "멤버",
-    href: "members",
-    icon: UsersIcon,
-  },
-];
 
 export default function Projects() {
   const { data: session } = useSession();
