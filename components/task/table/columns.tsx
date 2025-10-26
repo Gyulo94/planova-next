@@ -17,6 +17,65 @@ import UserAvatar from "../../user/user-avatar";
 import TaskActions from "../task-actions";
 import TaskDate from "../task-date";
 
+const TaskNameCell = ({ row }: { row: { original: Task } }) => {
+  const { workspaceId } = useParameters();
+  const name = row.original.name;
+  const id = row.original.id;
+  return (
+    <div className="flex space-x-2 ">
+      <Link
+        href={`/workspaces/${workspaceId}/tasks/${id}`}
+        className="ml-4 min-w-[200px] w-full truncate font-medium block cursor-pointer underline-offset-3 hover:underline"
+      >
+        {name}
+      </Link>
+    </div>
+  );
+};
+
+const AssigneeCell = ({ row }: { row: { original: Task } }) => {
+  const assignee = row.original.assignee;
+  const { onOpen: openUserDialog } = useOpenUserDialogStore();
+
+  return (
+    <div className="flex items-center justify-center gap-x-2 text-sm font-medium">
+      <UserAvatar
+        name={assignee.name}
+        url={assignee.image}
+        className="cursor-pointer"
+        onClick={() => openUserDialog(assignee.id)}
+        isTooltipEnabled={false}
+      />
+      <p className="line-clamp-1">{assignee.name}</p>
+    </div>
+  );
+};
+
+const TaskActionsCell = ({ row }: { row: { original: Task } }) => {
+  const { data: session } = useSession();
+  const id = row.original.id;
+  const projectId = row.original.project.id;
+  const { workspaceId } = useParameters();
+
+  const isAssignee =
+    session?.user && row.original.assignee.id === session.user.id;
+
+  const { data: myInfo } = useFindMyWorkspaceMemberInfo(
+    workspaceId,
+    session?.user?.id
+  );
+
+  return (
+    <TaskActions id={id} projectId={projectId}>
+      {myInfo.role === "ADMIN" || isAssignee ? (
+        <Button variant={"ghost"} className="size-8 p-0 mr-4">
+          <MoreVerticalIcon className="size-4" />
+        </Button>
+      ) : null}
+    </TaskActions>
+  );
+};
+
 export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "name",
@@ -33,21 +92,7 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const { projectId, workspaceId } = useParameters();
-      const name = row.original.name;
-      const id = row.original.id;
-      return (
-        <div className="flex space-x-2 ">
-          <Link
-            href={`/workspaces/${workspaceId}/tasks/${id}`}
-            className="ml-4 min-w-[200px] w-full truncate font-medium block cursor-pointer underline-offset-3 hover:underline"
-          >
-            {name}
-          </Link>
-        </div>
-      );
-    },
+    cell: ({ row }) => <TaskNameCell row={row} />,
   },
   {
     accessorKey: "status",
@@ -143,22 +188,7 @@ export const columns: ColumnDef<Task>[] = [
         </div>
       );
     },
-    cell: ({ row }) => {
-      const assignee = row.original.assignee;
-      const { onOpen: openUserDialog } = useOpenUserDialogStore();
-      return (
-        <div className="flex items-center justify-center gap-x-2 text-sm font-medium">
-          <UserAvatar
-            name={assignee.name}
-            url={assignee.image}
-            className="cursor-pointer"
-            onClick={() => openUserDialog(assignee.id)}
-            isTooltipEnabled={false}
-          />
-          <p className="line-clamp-1">{assignee.name}</p>
-        </div>
-      );
-    },
+    cell: ({ row }) => <AssigneeCell row={row} />,
   },
   {
     accessorKey: "startDate",
@@ -212,25 +242,6 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const { data: session } = useSession();
-      const id = row.original.id;
-      const projectId = row.original.project.id;
-      const { workspaceId } = useParameters();
-      const isAssignee = row.original.assignee.id === session?.user.id;
-      const { data: myInfo } = useFindMyWorkspaceMemberInfo(
-        workspaceId,
-        session?.user.id
-      );
-      return (
-        <TaskActions id={id} projectId={projectId}>
-          {myInfo.role === "ADMIN" || isAssignee ? (
-            <Button variant={"ghost"} className="size-8 p-0 mr-4">
-              <MoreVerticalIcon className="size-4" />
-            </Button>
-          ) : null}
-        </TaskActions>
-      );
-    },
+    cell: ({ row }) => <TaskActionsCell row={row} />,
   },
 ];
