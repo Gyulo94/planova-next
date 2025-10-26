@@ -48,7 +48,6 @@ export default function CreateTaskDialog() {
         <TaskForm
           onSubmit={onSubmit}
           defaultValues={defaultValues}
-          onClose={onClose}
           isDisabled={isDisabled}
         />
       </DialogContent>
