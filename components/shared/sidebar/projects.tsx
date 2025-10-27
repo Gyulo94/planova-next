@@ -59,7 +59,11 @@ export default function Projects() {
               >
                 <SidebarMenuButton asChild className="px-2 py-1.5">
                   <Link href={href}>
-                    <ProjectAvatar name={project.name} size="sm" />
+                    <ProjectAvatar
+                      name={project.name}
+                      url={project.image}
+                      size="sm"
+                    />
                     {project.name}
                   </Link>
                 </SidebarMenuButton>
