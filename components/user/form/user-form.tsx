@@ -70,9 +70,9 @@ export default function UserForm({
           control={form.control}
           name="image"
           render={({ field }) => (
-            <div className="gap-y-2">
+            <div className="w-full flex justify-center items-center gap-y-2">
               {field.value ? (
-                <div className="w-full h-[150px] flex justify-center relative rounded-full overflow-hidden">
+                <div className="size-[150px] flex justify-center relative rounded-full overflow-hidden">
                   <UserAvatar
                     url={field.value || DEFAULT_AVATAR}
                     size="7xl"
@@ -87,20 +87,18 @@ export default function UserForm({
                   )}
                 </div>
               ) : (
-                <>
-                  <Avatar
-                    className="size-[72px] cursor-pointer hover:bg-gray-50 transition-colors"
-                    {...getRootProps()}
-                  >
-                    <AvatarFallback>
-                      {uploading ? (
-                        <Loader className="border-neutral-400 border-t-transparent" />
-                      ) : (
-                        <ImageIcon className="size-[36px] text-neutral-400" />
-                      )}
-                    </AvatarFallback>
-                  </Avatar>
-                </>
+                <Avatar
+                  className="size-[150px] cursor-pointer hover:bg-gray-50 transition-colors"
+                  {...getRootProps()}
+                >
+                  <AvatarFallback>
+                    {uploading ? (
+                      <Loader className="border-neutral-400 border-t-transparent" />
+                    ) : (
+                      <ImageIcon className="size-[36px] text-neutral-400" />
+                    )}
+                  </AvatarFallback>
+                </Avatar>
               )}
               <input
                 type="file"
