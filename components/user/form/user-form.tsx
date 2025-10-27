@@ -72,7 +72,7 @@ export default function UserForm({
           render={({ field }) => (
             <div className="w-full flex justify-center items-center gap-y-2">
               {field.value ? (
-                <div className="size-[150px] flex justify-center relative rounded-full overflow-hidden">
+                <div className="size-36 flex justify-center relative rounded-full overflow-hidden">
                   <UserAvatar
                     url={field.value || DEFAULT_AVATAR}
                     size="7xl"
@@ -88,7 +88,7 @@ export default function UserForm({
                 </div>
               ) : (
                 <Avatar
-                  className="size-[150px] cursor-pointer hover:bg-gray-50 transition-colors"
+                  className="size-36 cursor-pointer hover:bg-gray-50 transition-colors"
                   {...getRootProps()}
                 >
                   <AvatarFallback>
