@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import z from "zod/v3";
 import {
@@ -20,12 +21,20 @@ export function useFindUserById(id?: string) {
 }
 
 export function useUpdateUser(id?: string) {
+  const { update } = useSession();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values: z.infer<typeof UserFormSchema>) =>
       updateUser(values, id),
     onSuccess: (data) => {
       toast.success(data.message);
+      const updatedData = {
+        user: {
+          name: data.body.name,
+          image: data.body.image,
+        },
+      };
+      void update(updatedData);
       queryClient.invalidateQueries({ queryKey: ["workspace-members"] });
       queryClient.invalidateQueries({
         queryKey: ["workspace-member", { userId: id }],

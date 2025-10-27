@@ -10,7 +10,6 @@ import {
 import { useFindUserById, useUpdateUser } from "@/lib/query";
 import { UserFormSchema } from "@/lib/validations";
 import { Session } from "next-auth";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import z from "zod/v3";
 import UserForm from "../form/user-form";
@@ -20,7 +19,6 @@ interface Props {
 }
 
 export default function EditSection({ userId }: Props) {
-  const { update } = useSession();
   const [isDisabled, setIsDisabled] = useState(false);
   const { data } = useFindUserById(userId);
   const { mutate: updateUser } = useUpdateUser(userId);
@@ -35,13 +33,6 @@ export default function EditSection({ userId }: Props) {
     updateUser(values, {
       onSuccess: () => {
         setIsDisabled(false);
-        const updatedData = {
-          user: {
-            name: values.name,
-            image: values.image,
-          },
-        };
-        void update(updatedData);
       },
       onError: () => {
         setIsDisabled(false);
