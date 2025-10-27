@@ -50,6 +50,7 @@ export default function WorkspaceDasahboard({ workspaceId, userId }: Props) {
     completedCount: { total: 0 },
     overdueCount: { total: 0 },
   };
+  const totalTasks = workspaceCounts.totalCount?.total ?? 0;
 
   const projectsList = useMemo(() => projects ?? [], [projects]);
   const tasksList = useMemo(() => tasks ?? [], [tasks]);
@@ -65,7 +66,12 @@ export default function WorkspaceDasahboard({ workspaceId, userId }: Props) {
 
   if (!workspace) return notFound();
 
-  if (!workspace) return notFound();
+  function generatePercentage(count?: number) {
+    if (totalTasks === 0) {
+      return 0;
+    }
+    return ((count ?? 0) / totalTasks) * 100;
+  }
 
   return (
     <div className="flex flex-col gap-6 px-2 md:px-4 2xl:px-6 py-0">
@@ -75,44 +81,34 @@ export default function WorkspaceDasahboard({ workspaceId, userId }: Props) {
         <Card className="p-4">
           <CircleProgress
             title="할 일"
-            value={
-              (workspaceCounts.todoCount?.total ??
-                0 / workspaceCounts.totalCount.total) * 100
-            }
-            subTitle={`${workspaceCounts.todoCount?.total}개 시작 예정`}
+            value={generatePercentage(workspaceCounts.todoCount?.total)}
+            subTitle={`${workspaceCounts.todoCount?.total ?? 0}개 시작 예정`}
             variant="default"
           />
         </Card>
         <Card className="p-4">
           <CircleProgress
             title="진행 중"
-            value={
-              (workspaceCounts.inProgressCount?.total ??
-                0 / workspaceCounts.totalCount.total) * 100
-            }
-            subTitle={`${workspaceCounts.inProgressCount?.total}개 진행 중`}
+            value={generatePercentage(workspaceCounts.inProgressCount?.total)}
+            subTitle={`${
+              workspaceCounts.inProgressCount?.total ?? 0
+            }개 진행 중`}
             variant="inProgress"
           />
         </Card>
         <Card className="p-4">
           <CircleProgress
             title="완료"
-            value={
-              (workspaceCounts.completedCount?.total ??
-                0 / workspaceCounts.totalCount.total) * 100
-            }
-            subTitle={`${workspaceCounts.completedCount?.total}개 완료`}
+            value={generatePercentage(workspaceCounts.completedCount?.total)}
+            subTitle={`${workspaceCounts.completedCount?.total ?? 0}개 완료`}
             variant="success"
           />
         </Card>
         <Card className="p-4">
           <CircleProgress
             title="지연됨"
-            value={
-              (workspaceCounts.overdueCount?.total ??
-                0 / workspaceCounts.totalCount.total) * 100
-            }
-            subTitle={`${workspaceCounts.overdueCount?.total}개 지연됨`}
+            value={generatePercentage(workspaceCounts.overdueCount?.total)}
+            subTitle={`${workspaceCounts.overdueCount?.total ?? 0}개 지연됨`}
             variant="warning"
           />
         </Card>

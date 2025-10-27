@@ -46,7 +46,7 @@ export default function TaskViewSwitcher({
   const { setProjects } = useProjects();
   const { setMembers, setIsAdmin } = useWorkspaceMembers();
 
-  const { mutate: bulkUpdateTask } = useBulkUpdateTask(projectId);
+  const { mutate: bulkUpdateTask } = useBulkUpdateTask(projectId, workspaceId);
 
   const [view, setView] = useQueryState("view", {
     defaultValue: "table",

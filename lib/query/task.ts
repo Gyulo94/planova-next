@@ -34,10 +34,13 @@ export function useCreateTask(userId?: string) {
         queryKey: ["project", "count", { id: data.body.project.id }],
       });
       queryClient.invalidateQueries({
+        queryKey: ["workspace", "count", { id: data.body.project.workspaceId }],
+      });
+      queryClient.invalidateQueries({
         queryKey: [
           "workspace",
           "count",
-          { workspaceId: data.body.project.workspaceId, userId },
+          { id: data.body.project.workspaceId, userId },
         ],
       });
     },
@@ -58,6 +61,7 @@ export function useFindTasksByProjectId(
     queryKey: ["tasks", { projectId, filterOptions }],
     queryFn: () => findTasksByProjectId(projectId, filterOptions),
     enabled: !!projectId,
+    staleTime: Infinity,
   });
   return query;
 }
@@ -67,6 +71,7 @@ export function useFindTasksByWorkspaceId(workspaceId: string) {
     queryKey: ["tasks", { workspaceId }],
     queryFn: () => findTasksByWorkspaceId(workspaceId),
     enabled: !!workspaceId,
+    staleTime: Infinity,
   });
   return query;
 }
@@ -80,6 +85,7 @@ export function useFindMyTasksByWorkspaceId(
     queryKey: ["tasks", { workspaceId, filterOptions, userId }],
     queryFn: () => findMyTasksByWorkspaceId(workspaceId, filterOptions),
     enabled: !!workspaceId && !!userId,
+    staleTime: Infinity,
   });
   return query;
 }
@@ -118,11 +124,7 @@ export function useUpdateTask(
         queryKey: ["project", "count", { id: projectId }],
       });
       queryClient.invalidateQueries({
-        queryKey: [
-          "workspace",
-          "count",
-          { workspaceId: data.body.project.workspaceId, userId },
-        ],
+        queryKey: ["workspace", "count", { id: data.body.project.workspaceId }],
       });
     },
     onError: (error) => {
@@ -134,7 +136,7 @@ export function useUpdateTask(
   return mutation;
 }
 
-export function useBulkUpdateTask(projectId?: string) {
+export function useBulkUpdateTask(projectId?: string, workspaceId?: string) {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
   const userId = session?.user.id;
@@ -155,6 +157,9 @@ export function useBulkUpdateTask(projectId?: string) {
       });
       queryClient.invalidateQueries({
         queryKey: ["project", "count", { id: projectId }],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace", "count"],
       });
     },
     onError: (error) => {

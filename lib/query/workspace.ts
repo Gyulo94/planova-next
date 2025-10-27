@@ -66,6 +66,7 @@ export function useFindWorkspaceById(id?: string) {
     enabled: !!id,
     queryKey: ["workspace", { id }],
     queryFn: () => findWorkspaceById(id),
+    staleTime: Infinity,
     retry: false,
   });
   return query;
@@ -114,6 +115,7 @@ export function useFindMyTaskCountsByWorkspaceId(id?: string, userId?: string) {
     enabled: !!id,
     queryKey: ["workspace", "count", { id, userId }],
     queryFn: () => findMyTaskCountsByWorkspaceId(id),
+    staleTime: Infinity,
     retry: false,
   });
   return query;
@@ -124,6 +126,7 @@ export function useFindTaskCountsByWorkspaceId(id?: string) {
     enabled: !!id,
     queryKey: ["workspace", "count", { id }],
     queryFn: () => findTaskCountsByWorkspaceId(id),
+    staleTime: Infinity,
     retry: false,
   });
   return query;
